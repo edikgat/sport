@@ -4,18 +4,18 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @events }
+      format.json { render json: @users }
     end
   end
 
   # GET /events/1
   # GET /events/1.json
   def show
-    @event = Event.find(params[:id])
+    @user = User.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @event }
+      format.json { render json: @user }
     end
   end
 end

@@ -8,4 +8,4 @@ class CreateUsersEvents < ActiveRecord::Migration
       t.timestamps
     end
   end
-end :default => false
+end
