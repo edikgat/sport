@@ -1,4 +1,5 @@
 class MessagesController < ApplicationController
+  before_filter :authenticate_user!, :except => [:show, :index]
   # GET /messages
   # GET /messages.json
   def index
@@ -40,10 +41,10 @@ class MessagesController < ApplicationController
   # POST /messages
   # POST /messages.json
   def create
-    @message = Message.new(params[:message])
-
+     @message = current_user.messages.build(params[:message])
     respond_to do |format|
-      if @message.save
+      if @message.valid?
+        @message = current_user.messages.create(params[:message])
         format.html { redirect_to @message, notice: 'Message was successfully created.' }
         format.json { render json: @message, status: :created, location: @message }
       else
@@ -52,7 +53,7 @@ class MessagesController < ApplicationController
       end
     end
   end
-
+  
   # PUT /messages/1
   # PUT /messages/1.json
   def update

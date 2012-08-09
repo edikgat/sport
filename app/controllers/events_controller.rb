@@ -1,4 +1,5 @@
 class EventsController < ApplicationController
+  before_filter :authenticate_user!, :except => [:show, :index]
   # GET /events
   # GET /events.json
   def index
@@ -40,12 +41,22 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-    @event = Event.new(params[:event])
+    @event = current_user.events.build(params[:event])
+    @event[:members]=1
+    
 
     respond_to do |format|
-      if @event.save
+      if @event.valid?
+        
+        param=params[:event]
+        param[:members]=1
+        @event=current_user.events.create(param)
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render json: @event, status: :created, location: @event }
+        q=UsersEvent.find_by_event_id(@event.id)
+        q[:role]=true
+        q.save
+
       else
         format.html { render action: "new" }
         format.json { render json: @event.errors, status: :unprocessable_entity }
@@ -68,6 +79,19 @@ class EventsController < ApplicationController
       end
     end
   end
+  #def join
+ #   @event = UsersEvent.create!(:user_id=>Event.find(params[:id]),
+
+#    respond_to do |format|
+  #    if @event.update_attributes(params[:event])
+   #     format.html { redirect_to @event, notice: 'Event was successfully updated.' }
+   #     format.json { head :no_content }
+   #   else
+   #     format.html { render action: "edit" }
+   #     format.json { render json: @event.errors, status: :unprocessable_entity }
+   #   end
+  #  end
+ # end
 
   # DELETE /events/1
   # DELETE /events/1.json

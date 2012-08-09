@@ -1,4 +1,5 @@
 class MicropostsController < ApplicationController
+  before_filter :authenticate_user!
   # GET /microposts
   # GET /microposts.json
   def index
@@ -40,10 +41,12 @@ class MicropostsController < ApplicationController
   # POST /microposts
   # POST /microposts.json
   def create
-    @micropost = Micropost.new(params[:micropost])
+   # @micropost = Micropost.new(params[:micropost])
+    @micropost = current_user.microposts.build(params[:micropost])
 
     respond_to do |format|
-      if @micropost.save
+      if @micropost.valid?
+        @micropost = current_user.microposts.create(params[:micropost])
         format.html { redirect_to @micropost, notice: 'Micropost was successfully created.' }
         format.json { render json: @micropost, status: :created, location: @micropost }
       else
@@ -53,6 +56,7 @@ class MicropostsController < ApplicationController
     end
   end
 
+   
   # PUT /microposts/1
   # PUT /microposts/1.json
   def update

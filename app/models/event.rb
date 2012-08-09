@@ -1,4 +1,5 @@
 class Event < ActiveRecord::Base
+	
   attr_accessible :description, :event_date, :members, :title
   has_many :users_events
   has_many :users, :through => :users_events
