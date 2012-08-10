@@ -87,7 +87,8 @@ class EventsController < ApplicationController
    
 
    @users_event = UsersEvent.create!(:event_id=>params[:event_id], :user_id=>current_user.id)
-   event.update_attributes(:members=>event.members+1)
+   q=@event.members+1
+   @event.update_attributes(:members=>q)
    redirect_to events_path
    # respond_to do |format|
    #   if @users_event.save
