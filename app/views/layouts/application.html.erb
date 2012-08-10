@@ -62,12 +62,11 @@
         <div class="span3">
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
-              <li class="nav-header">Sidebar</li>
+              <li class="nav-header"></li>
                <% if user_signed_in? %>
                <li><%= link_to "Users page", user_path(current_user)  %></li>
                <li><%= link_to "Messages", messages_path  %></li>
                <li><%= link_to "My microposts", microposts_path  %></li>
-               
                 <li><%= link_to "Friends", friendships_path  %></li>
                <% end %>
                <li><%= link_to "Events", events_path  %></li>

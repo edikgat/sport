@@ -3,7 +3,7 @@ class MicropostsController < ApplicationController
   # GET /microposts
   # GET /microposts.json
   def index
-    @microposts = Micropost.all
+    @microposts = current_user.all
 
     respond_to do |format|
       format.html # index.html.erb

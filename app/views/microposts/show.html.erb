@@ -1,15 +1,23 @@
-<p id="notice"><%= notice %></p>
+<%- model_class = Micropost -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human %></h1>
+</div>
 
-<p>
-  <b>Content:</b>
-  <%= @micropost.content %>
-</p>
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:content) %>:</strong></dt>
+  <dd><%= @micropost.content %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:user_id) %>:</strong></dt>
+  <dd><%= @micropost.user_id %></dd>
+</dl>
 
-<p>
-  <b>User:</b>
-  <%= @micropost.user_id %>
-</p>
-
-
-<%= link_to 'Edit', edit_micropost_path(@micropost) %> |
-<%= link_to 'Back', microposts_path %>
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              microposts_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_micropost_path(@micropost), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              micropost_path(@micropost),
+              :method => 'delete',
+              :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')),
+              :class => 'btn btn-danger' %>
+</div>

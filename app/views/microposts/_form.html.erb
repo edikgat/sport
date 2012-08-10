@@ -1,22 +1,20 @@
-<%= form_for(@micropost) do |f| %>
-  <% if @micropost.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@micropost.errors.count, "error") %> prohibited this micropost from being saved:</h2>
-
-      <ul>
-      <% @micropost.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+<%= form_for @micropost, :html => { :class => 'form-horizontal' } do |f| %>
+  <div class="control-group">
+    <%= f.label :content, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :content, :class => 'text_field' %>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :content %><br />
-    <%= f.text_field :content %>
+  </div>
+  <div class="control-group">
+    <%= f.label :user_id, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.number_field :user_id, :class => 'number_field' %>
+    </div>
   </div>
 
-  <div class="actions">
-    <%= f.submit %>
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                microposts_path, :class => 'btn' %>
   </div>
 <% end %>

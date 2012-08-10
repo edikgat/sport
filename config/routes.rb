@@ -4,8 +4,8 @@ Sport::Application.routes.draw do
  resources :users, :only => [:index, :show]
 
   resources :friendships
-  resources :messages
-
+   get '/reverse_messages' => "messages#reverse"
+  resources :messages 
   resources :microposts
 
   resources :events do

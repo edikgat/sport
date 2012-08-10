@@ -1,6 +1,6 @@
 <%- model_class = Message -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
+  <h1><%=t '.title', :default => "Reverse Messages" %></h1>
 </div>
 
 <table class="table table-striped">
@@ -8,8 +8,8 @@
     <tr>
       
       <th><%= model_class.human_attribute_name(:content) %></th>
-      <th><%= model_class.human_attribute_name(:sender_id) %></th>
-      <th><%= model_class.human_attribute_name(:receiver_id) %></th>
+      <th><%= model_class.human_attribute_name(:sender) %></th>
+      <th><%= model_class.human_attribute_name(:receiver) %></th>
       <th><%= model_class.human_attribute_name(:created_at) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
@@ -35,7 +35,4 @@
   </tbody>
 </table>
 
-<%= link_to t('.new', :default => t("helpers.links.new")),
-            new_message_path,
-            :class => 'btn btn-primary' %>
-<%= link_to 'Reverse', reverse_messages_path, :class => 'btn' %>
+<%= link_to 'Messages', messages_path, :class => 'btn' %>

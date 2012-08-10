@@ -3,7 +3,16 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.json
   def index
-    @messages = Message.all
+    @messages = current_user.messages
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @messages }
+    end
+  end
+  
+  def reverse
+    @messages = current_user.reverse_messages
 
     respond_to do |format|
       format.html # index.html.erb
@@ -21,6 +30,7 @@ class MessagesController < ApplicationController
       format.json { render json: @message }
     end
   end
+
 
   # GET /messages/new
   # GET /messages/new.json
