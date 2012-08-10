@@ -63,10 +63,18 @@
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
               <li class="nav-header">Sidebar</li>
-              <li><%= link_to "Users page", "/path1"  %></li>
-              <li><%= link_to "Events", events_path  %></li>
-              <li><%= link_to "Friends", "/path3"  %></li>
-              <li><%= link_to "Messages", "/path3"  %></li>
+               <% if user_signed_in? %>
+               <li><%= link_to "Users page", user_path(current_user)  %></li>
+               <li><%= link_to "Messages", messages_path  %></li>
+               <li><%= link_to "My microposts", microposts_path  %></li>
+               
+                <li><%= link_to "Friends", friendships_path  %></li>
+               <% end %>
+               <li><%= link_to "Events", events_path  %></li>
+               <li><%= link_to "Users", users_path  %></li>
+             
+              
+               
             </ul>
           </div><!--/.well -->
         </div><!--/span-->

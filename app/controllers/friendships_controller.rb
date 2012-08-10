@@ -41,10 +41,12 @@ class FriendshipsController < ApplicationController
   # POST /friendships
   # POST /friendships.json
   def create
-    @friendship = Friendship.new(params[:friendship])
+    
+     @friendship= current_user.friendships.build(params[:message])
 
     respond_to do |format|
-      if @friendship.save
+      if @friendship.valid?
+          @friendship= current_user.friendships.create(params[:message])
         format.html { redirect_to @friendship, notice: 'Friendship was successfully created.' }
         format.json { render json: @friendship, status: :created, location: @friendship }
       else
@@ -53,7 +55,6 @@ class FriendshipsController < ApplicationController
       end
     end
   end
-
   # PUT /friendships/1
   # PUT /friendships/1.json
   def update

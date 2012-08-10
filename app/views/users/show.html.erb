@@ -25,6 +25,3 @@
 
 
 <%= link_to 'Back', users_path %>
-<% if @user.email==current_user.email %>
-	<%= link_to 'Edit', edit_user_registration_path(@user) %>
- <% end %>

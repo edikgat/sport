@@ -1,15 +1,16 @@
 Sport::Application.routes.draw do
-  devise_for :users
+  devise_for :users 
+      
+ resources :users, :only => [:index, :show]
 
   resources :friendships
-
   resources :messages
 
   resources :microposts
 
   resources :events do
     post :join
-  end  
+ end  
   #match '/join',    :to => 'events#join'
   #put "posts/:id" => "events#join"
  
@@ -25,7 +26,6 @@ Sport::Application.routes.draw do
   # This route can be invoked with purchase_url(:id => product.id)
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
-  resources :users, :only => [:index, :show]
 
   # Sample resource route with options:
   #   resources :products do
