@@ -79,19 +79,26 @@ class EventsController < ApplicationController
       end
     end
   end
-  #def join
- #   @event = UsersEvent.create!(:user_id=>Event.find(params[:id]),
 
-#    respond_to do |format|
-  #    if @event.update_attributes(params[:event])
-   #     format.html { redirect_to @event, notice: 'Event was successfully updated.' }
+  def join
+   @event = Event.find(params[:event_id])
+   
+   #@event = Event.find(5)
+   
+
+   @users_event = UsersEvent.create!(:event_id=>params[:event_id], :user_id=>current_user.id)
+   event.update_attributes(:members=>event.members+1)
+   redirect_to events_path
+   # respond_to do |format|
+   #   if @users_event.save
+   #     format.html { redirect_to @event, notice: 'You have successfully joined to event' }
    #     format.json { head :no_content }
    #   else
    #     format.html { render action: "edit" }
-   #     format.json { render json: @event.errors, status: :unprocessable_entity }
+   #     format.json { render json: @users_event, status: :unprocessable_entity }
    #   end
-  #  end
- # end
+   # end
+   end
 
   # DELETE /events/1
   # DELETE /events/1.json
