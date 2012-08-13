@@ -10,16 +10,17 @@
       <th><%= model_class.human_attribute_name(:first_name) %></th>
       <th><%= model_class.human_attribute_name(:last_name) %></th>
       <th><%= model_class.human_attribute_name(:birth_date) %></th>
+       <th><%=t '.actions', :default => t("helpers.actions") %></th>
 
     </tr>
   </thead>
   <tbody>
     <% @users.each do |user| %>
       <tr>
-        <td><%= link_to user.first_name, users_path(user) %></td>
+        <td><%= link_to user.first_name, user_path(user) %></td>
         <td><%= user.last_name %></td>
         <td><%= user.birth_date %></td>
-        
+        <%= link_to 'Add to friends', friendships_path(@user), :method => :post, :class => 'btn' %>
       </tr>
     <% end %>
   </tbody>

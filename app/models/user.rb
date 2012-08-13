@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   #events
   has_many :users_events
   has_many :events, :through => :users_events
-  has_many :master_events, :through => :users_events, :source => :event, :conditions => { :role => true }
+  has_many :master_events, :through => :users_events, :source => :event, :conditions => [ "role = ?", true]
 
 
 
@@ -39,7 +39,8 @@ class User < ActiveRecord::Base
   has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
   has_many :inverse_friends, :through => :inverse_friendships, :source => :user, :conditions => [ "authorized = ?", false ] #входящие не авторизованные заявки
   
-  has_many :authorized_friends, :through => :friendships, :source => :friend, :conditions => [ "authorized = ?", true ]  #авторизованные друзья
+  has_many :my_authorized_friends, :through => :friendships, :source => :friend, :conditions => [ "authorized = ?", true ]  #те кто меня подтвердил
+  has_many :inverse_authorized_friends, :through => :inverse_friendships, :source => :user, :conditions => [ "authorized = ?", true ] #те кого подтвердил я
   has_many :unauthorized_friends, :through => :friendships, :source => :friend, :conditions => [ "authorized = ?", false ] #исходящие не авторизованные друзья
 
 ####################

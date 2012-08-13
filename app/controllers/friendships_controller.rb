@@ -4,7 +4,12 @@ class FriendshipsController < ApplicationController
   # GET /friendships.json
   #автризованные друзья==authorized_friends
   def index
-    @users = current_user.authorized_friends
+    @users = current_user.my_authorized_friends + current_user.inverse_authorized_friends
+
+   # current_user.inverse_authorized_friends.each do |friend|
+    
+   #   @users << friend
+    
 
     respond_to do |format|
       format.html # index.html.erb
@@ -60,11 +65,11 @@ class FriendshipsController < ApplicationController
   # POST /friendships.json
   def create
     
-     @friendship= current_user.friendships.build(params[:message])
+     @friendship = current_user.friendships.create!(:friend_id=>params[:friendship][:friend_id])
 
     respond_to do |format|
       if @friendship.valid?
-          @friendship= current_user.friendships.create(params[:message])
+          #@friendship= current_user.friendships.create(:friend_id=>params[:id])
         format.html { redirect_to @friendship, notice: 'Friendship was successfully created.' }
         format.json { render json: @friendship, status: :created, location: @friendship }
       else
@@ -77,7 +82,10 @@ class FriendshipsController < ApplicationController
   # PUT /friendships/1.json
   def update
     #@friendship = Friendship.find(params[:id])
-    @friendship = Friendship.find_by_user_id_and_friend_id(params[:id],current_user.id )
+     #Rails.logger.info "__________________params[:id]_____________________#{params[:id].inspect}"  
+    #Rails.logger.info "__________________params[:id]_____________________#{current_user.id).inspect}" 
+    @friendship = Friendship.find_by_user_id_and_friend_id(params[:id],current_user.id)
+     # Rails.logger.info "__________________friendship___________________#{friendship.inspect}" 
 
     respond_to do |format|
       if @friendship.update_attributes(:authorized=>true)
@@ -104,7 +112,7 @@ class FriendshipsController < ApplicationController
   end
 
     respond_to do |format|
-      format.html { redirect_to friendships_url }
+     format.html { redirect_to friendships_url }
       format.json { head :no_content }
     end
   end

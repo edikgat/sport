@@ -18,6 +18,27 @@ class EventsController < ApplicationController
       format.json { render json: @events }
     end
   end
+
+
+  #где я хозяин
+  def master
+    @title="Events that i create"
+
+
+    @events = current_user.master_events
+     #Rails.logger.info "__________________users_events_____________________#{users_events.inspect}"  
+    #@events = []
+    #users_events.each do |user_event|
+     # Rails.logger.info "__________________user_event.event__EVENT #{user_event.id}___________________#{user_event.event.inspect}" 
+    #  @events << user_event.event
+   # end
+    #Rails.logger.info "__________________@events_____________________#{@events.inspect}" 
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @events }
+    end
+  end
   #те куда я пойду
   def joined
     @title="Joined events"
@@ -38,21 +59,7 @@ class EventsController < ApplicationController
     end
   end
 
-  #где я хозяин
-  def master
-    @title="Events that i created"
-    users_events= current_user.users_events.where(:role=>true)
-    #@poi=Event.first
-    @events = []
-    users_events.each do |user_event|
-    @events << user_event.event
-    end
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @events }
-    end
-  end
+  
   #все
   def all
     @title="All events"
