@@ -35,11 +35,12 @@ class User < ActiveRecord::Base
 
   #friendships
   has_many :friendships
-  has_many :friends, :through => :friendships
+  has_many :friends, :through => :friendships #все заявки
   has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
-  has_many :inverse_friends, :through => :inverse_friendships, :source => :user
-  has_many :authorized_friends, :through => :friendships, :source => :friend,
-  :conditions => { :authorized => true } 
+  has_many :inverse_friends, :through => :inverse_friendships, :source => :user, :conditions => [ "authorized = ?", false ] #входящие не авторизованные заявки
+  
+  has_many :authorized_friends, :through => :friendships, :source => :friend, :conditions => [ "authorized = ?", true ]  #авторизованные друзья
+  has_many :unauthorized_friends, :through => :friendships, :source => :friend, :conditions => [ "authorized = ?", false ] #исходящие не авторизованные друзья
 
 ####################
 

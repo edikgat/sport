@@ -1,27 +1,31 @@
-<%- model_class = Micropost -%>
+<%- model_class = Event -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
+  <h1><%=t '.title', :default => @title %></h1>
 </div>
 <table class="table table-striped">
   <thead>
     <tr>
-
-      <th><%= model_class.human_attribute_name(:content) %></th>
+      <th><%= model_class.human_attribute_name(:title) %></th>
+      
+      <th><%= model_class.human_attribute_name(:event_date) %></th>
+      <th><%= model_class.human_attribute_name(:members) %></th>
       
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
   <tbody>
-    <% @microposts.each do |micropost| %>
+    <% @events.each do |event| %>
       <tr>
-        <td><%= link_to micropost.content, micropost_path(micropost) %></td>
+        <td><%= link_to event.title, event_path(event) %></td>
         
-                
+        <td><%= event.event_date %></td>
+        <td><%= event.members %></td>
+        
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_micropost_path(micropost), :class => 'btn btn-mini' %>
+                      edit_event_path(event), :class => 'btn btn-mini' %>
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      micropost_path(micropost),
+                      event_path(event),
                       :method => :delete,
                       :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')),
                       :class => 'btn btn-mini btn-danger' %>
@@ -32,5 +36,5 @@
 </table>
 
 <%= link_to t('.new', :default => t("helpers.links.new")),
-            new_micropost_path,
+            new_event_path,
             :class => 'btn btn-primary' %>

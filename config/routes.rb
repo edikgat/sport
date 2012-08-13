@@ -4,13 +4,19 @@ Sport::Application.routes.draw do
  resources :users, :only => [:index, :show]
 
   resources :friendships
-   get '/reverse_messages' => "messages#reverse"
+  get '/incoming_requests' => "friendships#incoming"
+  get '/outgoing_requests' => "friendships#outgoing"
+  get '/reverse_messages' => "messages#reverse"
   resources :messages 
   resources :microposts
-
+  get '/events_master' => "events#master"
+  get '/events_all' => "events#all"
+  get '/events_joined' => "events#joined"
+   
   resources :events do
     post :join
- end  
+ end
+
   #match '/join',    :to => 'events#join'
   #put "posts/:id" => "events#join"
  

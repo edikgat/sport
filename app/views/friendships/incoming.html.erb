@@ -1,7 +1,9 @@
 <%- model_class = Friendship -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
+  <h1><%=t '.title', :default => "Incoming requests" %></h1>
 </div>
+
+
 
 
 
@@ -22,6 +24,7 @@
         <td><%= user.last_name %></td>
         <td><%= user.birth_date %></td>
         <td>
+          <%= link_to 'Confirm', friendship_path(user),:method => :put, :class => 'btn' %>
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
                       friendship_path(user),
                       :method => :delete,
@@ -33,9 +36,8 @@
     <% end %>
   </tbody>
 </table>
-<%= link_to 'Incoming requests',  incoming_requests_path, :class => 'btn' %>
+<%= link_to 'Authorized friends',   friendships_path, :class => 'btn' %>
 <%= link_to 'Outgoing requests',  outgoing_requests_path, :class => 'btn' %>
 <%= link_to t('.new', :default => t("helpers.links.new")),
             new_friendship_path,
             :class => 'btn btn-primary' %>
-

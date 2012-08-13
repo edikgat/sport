@@ -5,5 +5,7 @@ class Friendship < ActiveRecord::Base
   belongs_to :friend, :class_name => "User"
   validates :user_id, :presence => true
   validates :friend_id, :presence => true
+  #validates :user_id, :uniqueness => { :scope => :friend_id,
+  #  :message => "should happen once per year" }
 
 end

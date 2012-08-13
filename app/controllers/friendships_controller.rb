@@ -2,15 +2,33 @@ class FriendshipsController < ApplicationController
   before_filter :authenticate_user!, :except => [:show, :index]
   # GET /friendships
   # GET /friendships.json
+  #автризованные друзья==authorized_friends
   def index
-    @friendships = Friendship.all
+    @users = current_user.authorized_friends
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @friendships }
     end
   end
+#incoming requests
+  def incoming
+    @users = current_user.inverse_friends
 
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @friendships }
+    end
+  end
+#outgoing requests
+  def outgoing
+    @users = current_user.unauthorized_friends
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @friendships }
+    end
+  end
   # GET /friendships/1
   # GET /friendships/1.json
   def show
@@ -58,14 +76,15 @@ class FriendshipsController < ApplicationController
   # PUT /friendships/1
   # PUT /friendships/1.json
   def update
-    @friendship = Friendship.find(params[:id])
+    #@friendship = Friendship.find(params[:id])
+    @friendship = Friendship.find_by_user_id_and_friend_id(params[:id],current_user.id )
 
     respond_to do |format|
-      if @friendship.update_attributes(params[:friendship])
-        format.html { redirect_to @friendship, notice: 'Friendship was successfully updated.' }
+      if @friendship.update_attributes(:authorized=>true)
+        format.html { redirect_to incoming_requests_path, notice: 'Friendship was successfully authorized.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { redirect_to incoming_requests_path }
         format.json { render json: @friendship.errors, status: :unprocessable_entity }
       end
     end
@@ -74,8 +93,15 @@ class FriendshipsController < ApplicationController
   # DELETE /friendships/1
   # DELETE /friendships/1.json
   def destroy
-    @friendship = Friendship.find(params[:id])
+
+
+    if @friendship = Friendship.find_by_user_id_and_friend_id(current_user.id, params[:id])
     @friendship.destroy
+  else
+    if @friendship = Friendship.find_by_user_id_and_friend_id(params[:id], current_user.id)
+    @friendship.destroy
+    end
+  end
 
     respond_to do |format|
       format.html { redirect_to friendships_url }

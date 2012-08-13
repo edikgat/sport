@@ -1,7 +1,9 @@
 <%- model_class = Friendship -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
+  <h1><%=t '.title', :default => "Outgoing requests" %></h1>
 </div>
+
+
 
 
 
@@ -33,9 +35,8 @@
     <% end %>
   </tbody>
 </table>
+<%= link_to 'Authorized friends',   friendships_path, :class => 'btn' %>
 <%= link_to 'Incoming requests',  incoming_requests_path, :class => 'btn' %>
-<%= link_to 'Outgoing requests',  outgoing_requests_path, :class => 'btn' %>
 <%= link_to t('.new', :default => t("helpers.links.new")),
             new_friendship_path,
             :class => 'btn btn-primary' %>
-
