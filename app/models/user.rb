@@ -44,5 +44,14 @@ class User < ActiveRecord::Base
   has_many :unauthorized_friends, :through => :friendships, :source => :friend, :conditions => [ "authorized = ?", false ] #исходящие не авторизованные друзья
 
 ####################
-
+  def could_make_friendship?(friend_id)
+    unless Friendship.find_by_user_id_and_friend_id(self.id, friend_id) || Friendship.find_by_user_id_and_friend_id(friend_id, self.id) || (friend_id== self.id)
+      return true
+    else
+      return false  
+    end
+  end
 end
+
+
+

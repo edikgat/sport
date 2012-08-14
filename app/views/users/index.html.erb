@@ -20,7 +20,9 @@
         <td><%= link_to user.first_name, user_path(user) %></td>
         <td><%= user.last_name %></td>
         <td><%= user.birth_date %></td>
-        <%= link_to 'Add to friends', friendships_path(@user), :method => :post, :class => 'btn' %>
+        <% if current_user.could_make_friendship?(user.id) %>
+        <td><%= link_to 'Add to friends', friendships_path(user), :method => :post, :class => 'btn' %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

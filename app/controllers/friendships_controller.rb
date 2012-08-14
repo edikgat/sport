@@ -48,12 +48,13 @@ class FriendshipsController < ApplicationController
   # GET /friendships/new
   # GET /friendships/new.json
   def new
-    @friendship = Friendship.new
+    redirect_to users_url
+    #@friendship = Friendship.new
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @friendship }
-    end
+   # respond_to do |format|
+    #  format.html # new.html.erb
+    #  format.json { render json: @friendship }
+    #end
   end
 
   # GET /friendships/1/edit
@@ -64,20 +65,13 @@ class FriendshipsController < ApplicationController
   # POST /friendships
   # POST /friendships.json
   def create
-    
-     @friendship = current_user.friendships.create!(:friend_id=>params[:friendship][:friend_id])
+     Rails.logger.info "__________________params_____________________#{params.inspect}"  
+     @friendship = current_user.friendships.create!(:friend_id=>params[:format])
+     redirect_to friendships_url
 
-    respond_to do |format|
-      if @friendship.valid?
-          #@friendship= current_user.friendships.create(:friend_id=>params[:id])
-        format.html { redirect_to @friendship, notice: 'Friendship was successfully created.' }
-        format.json { render json: @friendship, status: :created, location: @friendship }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @friendship.errors, status: :unprocessable_entity }
-      end
-    end
   end
+
+  
   # PUT /friendships/1
   # PUT /friendships/1.json
   def update
