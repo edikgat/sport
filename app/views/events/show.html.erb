@@ -12,12 +12,21 @@
   <dd><%= @event.event_date %></dd>
   <dt><strong><%= model_class.human_attribute_name(:members) %>:</strong></dt>
   <dd><%= @event.members %></dd>
+  <% if (@event.latitude && @event.longitude) %>
   <dt><strong><%= model_class.human_attribute_name(:latitude) %>:</strong></dt>
   <dd><%= @event.latitude %></dd>
   <dt><strong><%= model_class.human_attribute_name(:longitude) %>:</strong></dt>
   <dd><%= @event.longitude %></dd>
+  <% end %>
 </dl>
 
+<% if (@event.latitude && @event.longitude) %>
+<%= render :partial =>  "home/index" %>
+ <body onload="initialize()">
+ <div id="map_canvas" style="width:400px; height:400px"></div>
+
+ </body>
+<% end %>
 <div class="form-actions">
   
   <%= link_to 'Join', event_join_path(@event), :method => :post, :class => 'btn' %>

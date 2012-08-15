@@ -77,6 +77,10 @@ class EventsController < ApplicationController
   # GET /events/1.json
   def show
     @event = Event.find(params[:id])
+    @width=500
+    @latitude=@event.latitude
+    @longitude=@event.longitude
+    @zoom=12
 
     respond_to do |format|
       format.html # show.html.erb
