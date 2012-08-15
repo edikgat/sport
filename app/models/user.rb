@@ -33,9 +33,9 @@ class User < ActiveRecord::Base
     Friendship.my_friends(id, friend.id).present? || (id == friend.id) ? false : true
   end
 
-  def add_to_friends!(friend)
-    friendships.create!(:friend => friend)
-  end
+  #def add_to_friends!(friend)
+  # friendships.create!(:friend => friend)
+  #end
 end
 
 

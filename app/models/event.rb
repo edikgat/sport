@@ -9,6 +9,6 @@ class Event < ActiveRecord::Base
   validates :event_date, :presence => true
   validates :description, :presence => true,:length => { :maximum => 1500 }
 
-  def coordinates_array()   
-  end
+  scope :with_coordinates, where("latitude is not NULL AND longitude is not NULL")
+  #scope :authorized, where(:authorized => true)
 end
