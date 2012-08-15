@@ -7,6 +7,7 @@
 <table class="table table-striped">
   <thead>
     <tr>
+      <th></th>
       <th><%= model_class.human_attribute_name(:first_name) %></th>
       <th><%= model_class.human_attribute_name(:last_name) %></th>
       <th><%= model_class.human_attribute_name(:birth_date) %></th>
@@ -17,6 +18,7 @@
   <tbody>
     <% @users.each do |user| %>
       <tr>
+        <td><%= gravatar_for user, :size => 30 %></td>
         <td><%= link_to user.first_name, user_path(user) %></td>
         <td><%= user.last_name %></td>
         <td><%= user.birth_date %></td>

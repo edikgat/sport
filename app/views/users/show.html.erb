@@ -1,8 +1,9 @@
 
-
 <%- model_class = User -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human %></h1>
+  <h1>
+    <%= gravatar_for @user, :size => 50 %>
+    <%=t '.title', :default => @user.first_name %></h1>
 </div>
 
 <dl class="dl-horizontal">
@@ -20,10 +21,13 @@
   <%= link_to t('.back', :default => t("helpers.links.back")),
               users_path, :class => 'btn'  %>
 
+  <% if @user.id==current_user.id %>
   <%= link_to t('.edit', :default => t("helpers.links.edit")),
               edit_user_registration_path, :class => 'btn' %>
+              <% end %>
+  <% if current_user.can_add_to_friends?(@user) %>
    <%= link_to 'Add to friends', friendships_path(@user), :method => :post, :class => 'btn' %>           
-  
+  <% end %>
 
           <%#= link_to t('.destroy', :default => t("helpers.links.destroy")),
                       event_path(event),
