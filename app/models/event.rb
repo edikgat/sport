@@ -1,6 +1,6 @@
 class Event < ActiveRecord::Base
 	
-  attr_accessible :description, :event_date, :members, :title
+  attr_accessible :description, :event_date, :members, :title, :latitude, :longitude
   has_many :users_events
   has_many :users, :through => :users_events
   
@@ -11,6 +11,9 @@ class Event < ActiveRecord::Base
   validates :members, :presence => true
   validates :event_date, :presence => true
   validates :description, :presence => true,:length => { :maximum => 1500 }
+  def coordinates_array?()
+    
+  end
    
 
 end

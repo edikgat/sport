@@ -12,9 +12,14 @@
   <dd><%= @event.event_date %></dd>
   <dt><strong><%= model_class.human_attribute_name(:members) %>:</strong></dt>
   <dd><%= @event.members %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:latitude) %>:</strong></dt>
+  <dd><%= @event.latitude %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:longitude) %>:</strong></dt>
+  <dd><%= @event.longitude %></dd>
 </dl>
 
 <div class="form-actions">
+  
   <%= link_to 'Join', event_join_path(@event), :method => :post, :class => 'btn' %>
   <%= link_to t('.back', :default => t("helpers.links.back")),
               events_path, :class => 'btn'  %>

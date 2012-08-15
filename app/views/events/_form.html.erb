@@ -18,12 +18,17 @@
     </div>
   </div>
   <div class="control-group">
-    <%= f.label :members, :class => 'control-label' %>
+    <%= f.label :latitude, :class => 'control-label' %>
     <div class="controls">
-      <%= f.number_field :members, :class => 'number_field' %>
+      <%= f.number_field :latitude, :class => 'number_field' %>
     </div>
   </div>
-
+<div class="control-group">
+    <%= f.label :longitude, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.number_field :longitude, :class => 'number_field' %>
+    </div>
+  </div>
   <div class="form-actions">
     <%= f.submit nil, :class => 'btn btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),

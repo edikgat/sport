@@ -63,6 +63,7 @@
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
               <li class="nav-header"></li>
+               <li><%= link_to "Home", root_path  %></li>
                <% if user_signed_in? %>
                <li><%= link_to "Users page", user_path(current_user)  %></li>
                <li><%= link_to "Messages", messages_path  %></li>
