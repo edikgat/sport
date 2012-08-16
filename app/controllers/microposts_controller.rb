@@ -3,7 +3,7 @@ class MicropostsController < ApplicationController
   # GET /microposts
   # GET /microposts.json
   def index
-    @microposts = current_user.microposts
+    @microposts = current_user.microposts.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

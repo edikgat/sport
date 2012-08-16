@@ -2,6 +2,7 @@
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
 </div>
+<%= will_paginate %>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -30,7 +31,7 @@
     <% end %>
   </tbody>
 </table>
-
+<%= will_paginate %>
 <%= link_to t('.new', :default => t("helpers.links.new")),
             new_micropost_path,
             :class => 'btn btn-primary' %>

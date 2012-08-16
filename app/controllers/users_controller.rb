@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!, :except => [:show, :index]
   def index
-    @users = User.all
+    @users = User.paginate(:page => params[:page])
+    #@users = User.all
 
     respond_to do |format|
       format.html # index.html.erb

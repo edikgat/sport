@@ -4,8 +4,9 @@ class FriendshipsController < ApplicationController
   # GET /friendships.json
   #автризованные друзья==authorized_friends
   def index
-    @users = current_user.my_authorized_friends + current_user.inverse_authorized_friends
-
+    userss = current_user.my_authorized_friends + current_user.inverse_authorized_friends
+    @users=userss.paginate(:page => params[:page])
+#gfhghgfhgfhgfhgfhgfhfggfgf
    # current_user.inverse_authorized_friends.each do |friend|
     
    #   @users << friend
@@ -18,7 +19,7 @@ class FriendshipsController < ApplicationController
   end
 #incoming requests
   def incoming
-    @users = current_user.inverse_friends
+    @users = current_user.inverse_friends.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -27,7 +28,7 @@ class FriendshipsController < ApplicationController
   end
 #outgoing requests
   def outgoing
-    @users = current_user.unauthorized_friends
+    @users = current_user.unauthorized_friends.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

@@ -11,4 +11,5 @@ class Event < ActiveRecord::Base
 
   scope :with_coordinates, where("latitude is not NULL AND longitude is not NULL")
   #scope :authorized, where(:authorized => true)
+  
 end

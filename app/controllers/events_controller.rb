@@ -7,7 +7,7 @@ class EventsController < ApplicationController
     @title="My events"
 
 
-    @events = current_user.events
+    @events = current_user.events.paginate(:page => params[:page])
 
     #UsersEvent.all.map {|u| u.delete if u.event.blank? }
 
@@ -25,7 +25,7 @@ class EventsController < ApplicationController
     @title="Events that i create"
 
 
-    @events = current_user.master_events
+    @events = current_user.master_events.paginate(:page => params[:page])
      #Rails.logger.info "__________________users_events_____________________#{users_events.inspect}"  
     #@events = []
     #users_events.each do |user_event|
@@ -44,7 +44,7 @@ class EventsController < ApplicationController
     @title="Joined events"
 
 
-    users_events = current_user.users_events.where(:role => false)
+    users_events = current_user.users_events.where(:role => false).paginate(:page => params[:page])
      #Rails.logger.info "__________________users_events_____________________#{users_events.inspect}"  
     @events = []
     users_events.each do |user_event|
@@ -65,7 +65,7 @@ class EventsController < ApplicationController
     @title="All events"
 
 
-    @events = Event.all
+    @events = Event.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

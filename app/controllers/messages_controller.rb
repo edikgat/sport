@@ -3,7 +3,8 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.json
   def index
-    @messages = current_user.messages
+    @title="Messages"
+    @messages = current_user.messages.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -12,7 +13,8 @@ class MessagesController < ApplicationController
   end
   
   def reverse
-    @messages = current_user.reverse_messages
+    @title="Reverse Messages"
+    @messages = current_user.reverse_messages.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
