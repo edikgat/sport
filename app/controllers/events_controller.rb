@@ -12,6 +12,11 @@ class EventsController < ApplicationController
     #UsersEvent.all.map {|u| u.delete if u.event.blank? }
 
 
+##############
+   # @categories = Category.order(:name).where("name like ?", "%#{params[:term]}%")
+   # render json: @categories.map(&:name)
+################
+
 
     respond_to do |format|
       format.html # index.html.erb

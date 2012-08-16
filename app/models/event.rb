@@ -11,5 +11,12 @@ class Event < ActiveRecord::Base
 
   scope :with_coordinates, where("latitude is not NULL AND longitude is not NULL")
   #scope :authorized, where(:authorized => true)
-  
+ # def category_name
+ #   category.try(:name)
+ # end
+ 
+  def event_title=(title)
+    Category.find_by_title(title) if title.present?
+  end
+
 end

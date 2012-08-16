@@ -2,3 +2,9 @@
 <%= link_to 'All events',  events_all_path, :class => 'btn' %>
 <%= link_to 'Joined events',  events_joined_path, :class => 'btn' %>
 <%= link_to 'Created events',  events_master_path, :class => 'btn' %>
+ 
+<%= form_tag("/search", :method => "get") do %>
+  <%= label_tag(:title, "Search for:") %>
+  <%= text_field_tag(:title123) %>
+  <%= submit_tag("Search") %>
+<% end %>
