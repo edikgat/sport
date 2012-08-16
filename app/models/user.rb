@@ -29,9 +29,19 @@ class User < ActiveRecord::Base
   has_many :inverse_authorized_friends, :through => :inverse_friendships, :source => :user, :conditions => [ "authorized = ?", true ]
   has_many :unauthorized_friends, :through => :friendships, :source => :friend, :conditions => [ "authorized = ?", false ]
 
+
+   scope :friends_wich_accepted,  lambda {
+    |my_id|   User.find(my_id).my_authorized_friends + User.find(my_id).inverse_authorized_friends }
+
+
+
   def can_add_to_friends?(friend)
     Friendship.my_friends(id, friend.id).present? || (id == friend.id) ? false : true
   end
+  
+  #def my_true_friends()
+  #  return (self.my_authorized_friends+self.inverse_authorized_friends)
+  #end
 
   #def add_to_friends!(friend)
   # friendships.create!(:friend => friend)

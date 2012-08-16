@@ -19,6 +19,10 @@ class Friendship < ActiveRecord::Base
   scope :my_friends, lambda {
     |my_id, friend_id| where("(user_id = (?) AND friend_id = (?)) OR (user_id = (?) AND friend_id = (?))", my_id, friend_id, friend_id, my_id) 
   }
+
+  #scope :my_authorized_friends, lambda {
+  #  |my_id, authorization| where("(user_id = (?) AND authorized = (?)) OR (friend_id = (?) AND authorized = (?))", my_id, authorization, my_id, authorization) 
+ # }
   #scope :for_today, where("created_at >= (?)", Date.today.beginning_of_day)
   #scope :authorized, where(:authorized => true)
   #scope :not_authorized, where(:authorized => false)
