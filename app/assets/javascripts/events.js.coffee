@@ -3,5 +3,5 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 jQuery ->
-  $("input").autocomplete
-    source: ['q', 'b','s','dsads', 'dfdsfd', 'foo' ,'foobar', 'fgdfgdfg', 'fcdgfdgdf']
+  $('#Search_title123').autocomplete
+    source: $('#Search_title123').data('autocomplete-source')

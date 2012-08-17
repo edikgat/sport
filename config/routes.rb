@@ -12,6 +12,7 @@ Sport::Application.routes.draw do
   get '/events_master' => "events#master"
   get '/events_all' => "events#all"
   get '/events_joined' => "events#joined"
+  post '/event_search' => "events#search"
    
   resources :events do
     post :join

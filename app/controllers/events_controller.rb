@@ -5,6 +5,7 @@ class EventsController < ApplicationController
   #joined_and_master
   def index
     @title="My events"
+    @titlesearch
 
 
     @events = current_user.events.paginate(:page => params[:page])
@@ -22,6 +23,16 @@ class EventsController < ApplicationController
       format.html # index.html.erb
       format.json { render json: @events }
     end
+  end
+
+  def search
+    Rails.logger.info "__________________search_events_____________________#{params.inspect}"
+    Rails.logger.info "__________________search_events_____________________#{params[:Search][:title123].inspect}"
+   if @event=Event.find_by_title(params[:Search][:title123])
+   redirect_to @event
+   else
+    redirect_to events_path
+  end
   end
 
 
