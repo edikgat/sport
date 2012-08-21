@@ -29,7 +29,7 @@ gem "carrierwave"
 gem "mini_magick"
 gem 'jquery-rails'
 gem 'redactor-rails'
-
+gem 'fancybox-rails'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

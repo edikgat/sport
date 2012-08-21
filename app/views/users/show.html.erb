@@ -30,14 +30,16 @@
   <% end %>
 
 </div>
+<% if @user.microposts.any? %>
 <h2>Microposts</h2>
 <table class="table table-striped">
   <thead>
     <tr>
 
       <th>Content</th>
-      
+      <% if @user.id==current_user.id %>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
+      <% end %>
     </tr>
   </thead>
   <tbody>
@@ -45,7 +47,7 @@
       <tr>
         <td><%= link_to micropost.content, micropost_path(micropost) %></td>
         
-                
+        <% if @user.id==current_user.id %>        
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_micropost_path(micropost), :class => 'btn btn-mini' %>
@@ -55,12 +57,13 @@
                       :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')),
                       :class => 'btn btn-mini btn-danger' %>
         </td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-
+<% end %>
           <%#= link_to t('.destroy', :default => t("helpers.links.destroy")),
                       event_path(event),
                       :method => :delete,
