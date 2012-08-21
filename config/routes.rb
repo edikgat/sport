@@ -1,18 +1,29 @@
 Sport::Application.routes.draw do
+  mount RedactorRails::Engine => '/redactor_rails'
+
   devise_for :users 
       
  resources :users, :only => [:index, :show]
-
+  post '/user_search' => "users#search"
+  get '/user_index_search' => "users#index_search"
+  get '/user_email_index_search' => "users#email_index_search"
   resources :friendships
   get '/incoming_requests' => "friendships#incoming"
   get '/outgoing_requests' => "friendships#outgoing"
   get '/reverse_messages' => "messages#reverse"
   resources :messages 
+  post '/receiver_search' => "messages#receiver_search"
   resources :microposts
+  post '/micropost_search' => "microposts#search"
+
+
+
+
   get '/events_master' => "events#master"
   get '/events_all' => "events#all"
   get '/events_joined' => "events#joined"
   post '/event_search' => "events#search"
+  get '/event_index_search' => "events#index_search"
    
   resources :events do
     post :join

@@ -8,7 +8,7 @@
   <dt><strong><%= model_class.human_attribute_name(:title) %>:</strong></dt>
   <dd><%= @event.title %></dd>
   <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
-  <dd><%= @event.description %></dd>
+  <dd><%= @event.description.html_safe %></dd>
   <dt><strong><%= model_class.human_attribute_name(:event_date) %>:</strong></dt>
   <dd><%= @event.event_date %></dd>
   <dt><strong><%= model_class.human_attribute_name(:members) %>:</strong></dt>

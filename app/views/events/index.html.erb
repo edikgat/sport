@@ -2,10 +2,10 @@
 <%= link_to 'All events',  events_all_path, :class => 'btn' %>
 <%= link_to 'Joined events',  events_joined_path, :class => 'btn' %>
 <%= link_to 'Created events',  events_master_path, :class => 'btn' %>
- <% @search="Search" %>
+<% @search="Search" %>
 <%= form_for @search, :url => event_search_path(@search) do |f| %>
   <div class="field">
-    <%= f.label :title %><br />
-    <%= f.text_field :title123, data: {autocomplete_source: Event.order(:title).map(&:title)} %>
+    <%= f.label  ("Search events by title") %><br />
+    <%= f.text_field :title1234, data: { autocomplete_source: event_index_search_path } %>
   </div> <%= f.submit "Search"%>
 <% end %>

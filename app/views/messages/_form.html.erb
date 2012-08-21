@@ -2,15 +2,14 @@
   <div class="control-group">
     <%= f.label :content, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_area :content, :class => 'text_area' %>
+      <%= f.text_area :content %>
     </div>
   </div>
+
   <div class="control-group">
-    <%= f.label :receiver_id, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.number_field :receiver_id, :class => 'number_field' %>
-    </div>
-  </div>
+    <%= f.label  ("Search by users email") %><br />
+    <%= f.text_field :receiver_id, data: { autocomplete_source: user_email_index_search_path } %>
+  </div> 
 
   <div class="form-actions">
     <%= f.submit nil, :class => 'btn btn-primary' %>

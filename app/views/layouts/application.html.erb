@@ -47,10 +47,21 @@
           <a class="brand" href="#">Sport</a>
           <div class="container-fluid nav-collapse">
             <ul class="nav">
-
-              <li><%= link_to "Link1", "/path1"  %></li>
-              <li><%= link_to "Link2", "/path2"  %></li>
-              <li><%= link_to "Link3", "/path3"  %></li>
+              <li><%= link_to "Home", root_path  %></li>
+               <% if user_signed_in? %>
+               <li><%= link_to "Users page", user_path(current_user)  %></li>
+               <li><%= link_to "Messages", messages_path  %></li>
+               <li><%= link_to "My microposts", microposts_path  %></li>
+                <li><%= link_to "Friends", friendships_path  %></li>
+               <% end %>
+               <li><%= link_to "Events", events_path  %></li>
+               <li><%= link_to "Users", users_path  %></li>
+         <li>   <% @search="Search" %>
+                 <%= form_for @search, :url => event_search_path(@search) do |f| %>
+                  <%= f.text_field :title123, data: { autocomplete_source: event_index_search_path } %>
+                   <%= f.submit "Event Search"%>
+                     <% end %>
+             </li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>

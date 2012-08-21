@@ -15,7 +15,7 @@
 var longitudeArray = [];
 var latitudeArray = [];
 var titleArray = [];
-//document.write("Моя первая страница.");
+
 
 <% c_events=Event.with_coordinates %>
  <% c_events.each_with_index do |event, i| %>
@@ -24,7 +24,7 @@ var titleArray = [];
      titleArray[1*<%= i%>]= '<%= event.title %>';
 
  <% end %>
-//alert (titleArray[0]);
+
 
 var markersArray=[];
 var map;
@@ -56,9 +56,7 @@ for(var i=0; i<longitudeArray.length; i++)
 
 };
 
-  google.maps.event.addListener(marker, 'click', function() {
-    map.setZoom(8);
-  });
+  google.maps.event.addListener(marker, 'click');
 }
   
 

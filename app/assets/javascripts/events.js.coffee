@@ -5,3 +5,6 @@
 jQuery ->
   $('#Search_title123').autocomplete
     source: $('#Search_title123').data('autocomplete-source')
+
+  $('#Search_title1234').autocomplete
+    source: $('#Search_title1234').data('autocomplete-source')

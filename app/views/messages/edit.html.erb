@@ -3,4 +3,18 @@
   <h1><%=t '.title', :default => t('helpers.titles.edit', :model => model_class.model_name.human,
                                    :default => "Edit #{model_class.model_name.human}") %></h1>
 </div>
-<%= render :partial => 'form' %>
+<%= form_for @message, :html => { :class => 'form-horizontal' } do |f| %>
+  <div class="control-group">
+    <%= f.label :content, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :content%>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                messages_path, :class => 'btn' %>
+  </div>
+<% end %>
+

@@ -18,7 +18,7 @@
   <tbody>
     <% @messages.each do |message| %>
       <tr>
-        <td><%= link_to message.content, message_path(message) %></td>
+        <td><%= link_to message.content.html_safe, message_path(message) %></td>
         <td><%= User.find(message.sender_id).email %></td>
         <td><%= User.find(message.sender_id).email %></td>
         <td><%=l message.created_at %></td>

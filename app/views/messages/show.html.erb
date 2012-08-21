@@ -5,11 +5,11 @@
 
 <dl class="dl-horizontal">
   <dt><strong><%= model_class.human_attribute_name(:content) %>:</strong></dt>
-  <dd><%= @message.content %></dd>
+  <dd><%= @message.content.html_safe %></dd>
   <dt><strong><%= model_class.human_attribute_name(:sender_id) %>:</strong></dt>
-  <dd><%= @message.sender_id %></dd>
+  <dd><%= User.find(@message.sender_id).email %></dd>
   <dt><strong><%= model_class.human_attribute_name(:receiver_id) %>:</strong></dt>
-  <dd><%= @message.receiver_id %></dd>
+  <dd><%= User.find(@message.receiver_id).email %></dd>
 </dl>
 
 <div class="form-actions">

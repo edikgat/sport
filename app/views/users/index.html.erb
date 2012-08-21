@@ -32,4 +32,11 @@
   </tbody>
 </table>
 <%= will_paginate %>
+<% @search="Search" %>
+<%= form_for @search, :url => user_search_path(@search) do |f| %>
+  <div class="field">
+    <%= f.label  ("Search by users last name") %><br />
+    <%= f.text_field :title1234, data: { autocomplete_source: user_index_search_path } %>
+  </div> <%= f.submit "Search"%>
+<% end %>
 

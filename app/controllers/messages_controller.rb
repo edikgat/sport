@@ -53,10 +53,15 @@ class MessagesController < ApplicationController
   # POST /messages
   # POST /messages.json
   def create
-     @message = current_user.messages.build(params[:message])
+    #Rails.logger.info "__________________search_____________________#{params.inspect}"
+     
+    receiver=User.find_by_email(params[:message][:receiver_id]).id
+
+ #  Rails.logger.info "__________________id_____________________#{receiver.inspect}"
+     @message = current_user.messages.build(:content=>params[:message][:content], :receiver_id=>receiver)
     respond_to do |format|
       if @message.valid?
-        @message = current_user.messages.create(params[:message])
+        @message = current_user.messages.create(:content=>params[:message][:content], :receiver_id=>receiver)
         format.html { redirect_to @message, notice: 'Message was successfully created.' }
         format.json { render json: @message, status: :created, location: @message }
       else
@@ -69,6 +74,7 @@ class MessagesController < ApplicationController
   # PUT /messages/1
   # PUT /messages/1.json
   def update
+    #receiver=User.find_by_email(params[:message][:receiver_id]).id
     @message = Message.find(params[:id])
 
     respond_to do |format|
@@ -93,4 +99,7 @@ class MessagesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+ 
+
 end

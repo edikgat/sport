@@ -35,3 +35,11 @@
 <%= link_to t('.new', :default => t("helpers.links.new")),
             new_micropost_path,
             :class => 'btn btn-primary' %>
+
+<% @search="Search" %>
+<%= form_for @search, :url => micropost_search_path(@search) do |f| %>
+  <div class="field">
+    <%= f.label ("Search by micropost content") %><br />
+    <%= f.text_field :title123, data: {autocomplete_source: current_user.microposts.order(:content).map(&:content)} %>
+  </div> <%= f.submit "Search"%>
+<% end %>

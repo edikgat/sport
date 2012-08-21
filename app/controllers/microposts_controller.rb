@@ -84,4 +84,15 @@ class MicropostsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+
+  def search
+   # Rails.logger.info "__________________search_events_____________________#{params.inspect}"
+   # Rails.logger.info "__________________search_events_____________________#{params[:Search][:title123].inspect}"
+   if @micropost=current_user.microposts.find_by_content(params[:Search][:title123])
+   redirect_to @micropost
+   else
+    redirect_to microposts_path
+    end
+  end
 end

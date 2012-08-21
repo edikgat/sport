@@ -26,13 +26,22 @@ class EventsController < ApplicationController
   end
 
   def search
-    Rails.logger.info "__________________search_events_____________________#{params.inspect}"
-    Rails.logger.info "__________________search_events_____________________#{params[:Search][:title123].inspect}"
+   # Rails.logger.info "__________________search_events_____________________#{params.inspect}"
+   # Rails.logger.info "__________________search_events_____________________#{params[:Search][:title123].inspect}"
    if @event=Event.find_by_title(params[:Search][:title123])
    redirect_to @event
    else
     redirect_to events_path
+    end
   end
+
+def index_search
+  
+  #Rails.logger.info "__________________search_eventsssads_____________________#{params.inspect}"
+    @events = Event.order(:title).where("title like ?", "%#{params[:term]}%")
+    #params[:id]=10;
+    render json: @events.map(&:title)
+   #Rails.logger.info "__________________search_events_____________________#{params.inspect}"
   end
 
 
