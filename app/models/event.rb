@@ -1,5 +1,5 @@
 class Event < ActiveRecord::Base
-  attr_accessible :description, :event_date, :members, :title, :latitude, :longitude, :photo
+  attr_accessible :description, :event_date, :members, :title, :latitude, :longitude, :photo, :result
 
   has_many :users_events
   has_many :users, :through => :users_events

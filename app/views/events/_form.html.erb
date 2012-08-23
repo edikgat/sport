@@ -11,6 +11,14 @@
       <%= f.text_area :description, :class=>'redactor'%>
     </div>
   </div>
+  <% if @event.created_at %>
+  <div class="control-group">
+    <%= f.label :result, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :result, :class=>'redactor'%>
+    </div>
+  </div>
+  <% end %>
   <div class="control-group">
     <%= f.label :event_date, :class => 'control-label' %>
     <div class="controls">

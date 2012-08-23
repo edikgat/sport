@@ -33,13 +33,17 @@ class User < ActiveRecord::Base
    scope :friends_wich_accepted,  lambda {
     |my_id|   User.find(my_id).my_authorized_friends + User.find(my_id).inverse_authorized_friends }
 
-
+   
 
   def can_add_to_friends?(friend)
     Friendship.my_friends(id, friend.id).present? || (id == friend.id) ? false : true
   end
-  
 
+
+  def my_chat(friend)
+    chat=self.messages.where("receiver_id= (?)",friend.id)+self.reverse_messages.where("sender_id= (?)",friend.id)
+    return chat.sort_by(&:created_at)
+  end
   #def add_to_friends!(friend)
   # friendships.create!(:friend => friend)
   #end

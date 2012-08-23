@@ -13,6 +13,9 @@ Sport::Application.routes.draw do
   get '/reverse_messages' => "messages#reverse"
   resources :messages 
   post '/receiver_search' => "messages#receiver_search"
+  get 'chats'=>"messages#chat_index"
+  get 'chat/:id'=>"messages#chat_show", :as => 'chat'
+  
   resources :microposts
   post '/micropost_search' => "microposts#search"
 

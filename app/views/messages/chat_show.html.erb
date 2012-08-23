@@ -18,6 +18,7 @@
   <tbody>
     <% @messages.each do |message| %>
       <tr>
+      	
         <td><%= link_to message.content.html_safe, message_path(message) %></td>
         <td><%= User.find(message.sender_id).email %></td>
         <td><%= User.find(message.receiver_id).email %></td>
@@ -36,3 +37,38 @@
   </tbody>
 </table>
 <%= will_paginate %>
+
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_message_path,
+            :class => 'btn btn-primary' %>
+<%= link_to 'Reverse', reverse_messages_path, :class => 'btn' %>
+<%= link_to 'Messages', messages_path, :class => 'btn' %>
+
+ 
+<div class="page-header">
+  <h1><%=t '.title', :default => t('helpers.titles.new', :model => model_class.model_name.human,
+                                 :default => "New #{model_class.model_name.human}") %></h1>
+</div>
+
+<% if @messages[0].sender_id==current_user.id %>
+<% receiver=@messages[0].receiver_id %>
+<% else %>
+<% receiver=@messages[0].sender_id %>
+<% end %>
+
+<%= form_for @message, :html => { :class => 'form-horizontal' } do |f| %>
+  <div class="control-group">
+    <%= f.label :content, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :content, :class=>'redactor' %>
+    </div>
+  </div>
+  
+  <%= hidden_field_tag(:receiver, receiver) %>
+ 
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                messages_path, :class => 'btn' %>
+  </div>
+<% end %>

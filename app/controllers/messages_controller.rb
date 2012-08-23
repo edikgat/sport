@@ -2,6 +2,33 @@ class MessagesController < ApplicationController
   before_filter :authenticate_user!, :except => [:show, :index]
   # GET /messages
   # GET /messages.json
+  
+
+
+
+
+  def chat_show
+    @title="Chat"
+    @messages=Message.chat_with_friend(current_user.id,params[:id]).paginate(:page => params[:page])
+    @message = Message.new
+    Rails.logger.info "__________________search_____________________#{params.inspect}"
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @messages }
+    end
+
+  end
+  def chat_index
+    @title="Chats"
+    @messages = Message.all_chats_with_user(current_user.id).paginate(:page => params[:page])
+
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @messages }
+    end
+  end
+
   def index
     @title="Messages"
     @messages = current_user.messages.paginate(:page => params[:page])
@@ -53,11 +80,16 @@ class MessagesController < ApplicationController
   # POST /messages
   # POST /messages.json
   def create
-    #Rails.logger.info "__________________search_____________________#{params.inspect}"
-     
-    receiver=User.find_by_email(params[:message][:receiver_id]).id
 
- #  Rails.logger.info "__________________id_____________________#{receiver.inspect}"
+    #Rails.logger.info "__________________search_____________________#{params.inspect}"
+    
+    if  params[:message][:receiver_id]
+    receiver=User.find_by_email(params[:message][:receiver_id]).id
+  end
+  if params[:receiver]
+    receiver=params[:receiver]
+  end
+  
      @message = current_user.messages.build(:content=>params[:message][:content], :receiver_id=>receiver)
     respond_to do |format|
       if @message.valid?

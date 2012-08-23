@@ -18,7 +18,13 @@
   <tbody>
     <% @messages.each do |message| %>
       <tr>
-        <td><%= link_to message.content.html_safe, message_path(message) %></td>
+      	<% user_id=1 %>
+        <% if  message.sender_id==current_user.id%>
+        <% user_id=message.receiver_id %>
+        <% else %>
+        <% user_id=message.sender_id %>
+        <% end %>
+        <td><%= link_to message.content.html_safe, chat_path(user_id) %></td>
         <td><%= User.find(message.sender_id).email %></td>
         <td><%= User.find(message.receiver_id).email %></td>
         <td><%=l message.created_at %></td>
@@ -36,3 +42,9 @@
   </tbody>
 </table>
 <%= will_paginate %>
+
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_message_path,
+            :class => 'btn btn-primary' %>
+<%= link_to 'Reverse', reverse_messages_path, :class => 'btn' %>
+<%= link_to 'Messages', messages_path, :class => 'btn' %>
