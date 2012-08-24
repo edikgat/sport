@@ -8,8 +8,10 @@
 
   <div class="control-group">
     <%= f.label  ("Search by users email") %><br />
+     <div class="controls">
     <%= f.text_field :receiver_id, data: { autocomplete_source: user_email_index_search_path } %>
   </div> 
+</div>
 
   <div class="form-actions">
     <%= f.submit nil, :class => 'btn btn-primary' %>

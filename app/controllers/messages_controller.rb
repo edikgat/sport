@@ -20,7 +20,8 @@ class MessagesController < ApplicationController
   end
   def chat_index
     @title="Chats"
-    @messages = Message.all_chats_with_user(current_user.id).paginate(:page => params[:page])
+    @messages = current_user.all_chats_with_user.paginate(:page => params[:page])
+    @count=@messages.count
 
 
     respond_to do |format|
@@ -64,6 +65,8 @@ class MessagesController < ApplicationController
   # GET /messages/new
   # GET /messages/new.json
   def new
+Rails.logger.info "__________________request_____________________#{request.inspect}"
+
     @message = Message.new
 
     respond_to do |format|
@@ -83,8 +86,8 @@ class MessagesController < ApplicationController
 
     #Rails.logger.info "__________________search_____________________#{params.inspect}"
     
-    if  params[:message][:receiver_id]
-    receiver=User.find_by_email(params[:message][:receiver_id]).id
+  if params[:message].present? && params[:message][:receiver_id].present?
+    receiver = User.find_by_email(params[:message][:receiver_id]).id
   end
   if params[:receiver]
     receiver=params[:receiver]
@@ -93,7 +96,7 @@ class MessagesController < ApplicationController
      @message = current_user.messages.build(:content=>params[:message][:content], :receiver_id=>receiver)
     respond_to do |format|
       if @message.valid?
-        @message = current_user.messages.create(:content=>params[:message][:content], :receiver_id=>receiver)
+        @message = current_user.messages.create(:content => params[:message][:content], :receiver_id => receiver)
         format.html { redirect_to @message, notice: 'Message was successfully created.' }
         format.json { render json: @message, status: :created, location: @message }
       else

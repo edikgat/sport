@@ -16,7 +16,8 @@ class User < ActiveRecord::Base
   has_many :master_events, :through => :users_events, :source => :event, :conditions => [ "role = ?", true]
 
   has_many :messages, :foreign_key => "sender_id", :dependent => :destroy
-  has_many :reverse_messages, :class_name => "Message", :foreign_key => "receiver_id", :dependent => :destroy                               
+  has_many :reverse_messages, :class_name => "Message", :foreign_key => "receiver_id", :dependent => :destroy
+
   has_many :receivers, :through => :messages, :source => :receiver
   has_many :senders, :through => :reverse_messages, :source => :sender
 
@@ -43,6 +44,49 @@ class User < ActiveRecord::Base
   def my_chat(friend)
     chat=self.messages.where("receiver_id= (?)",friend.id)+self.reverse_messages.where("sender_id= (?)",friend.id)
     return chat.sort_by(&:created_at)
+  end
+
+  def chats
+    messages + reverse_messages
+  end
+
+  def chat_with
+    all_id_pairs = chats.map { |c| [c.sender_id, c.receiver_id] }
+    unique_ids = []
+    all_id_pairs.each { |p| p.each { |i| unique_ids << i } }
+    unique_ids = unique_ids.uniq.reject! { |i| i == id }
+
+    chat_pairs = []
+    unique_ids.each do |unique_id|
+      chat_pairs << chats.
+        select { |c| c.sender_id == unique_id || c.receiver_id == unique_id }
+    end
+
+    chat_pairs
+  end
+
+
+  def all_chats_with_user
+    group_messages=Message.all_messages_with_user(id).group("sender_id", "receiver_id");
+    counted=group_messages.count
+    messages=[]
+    group_messages.each_with_index{| message, i |
+    messages[i]=message
+    j=0  
+    exit=0
+      while  (j<i) do  
+       if (message.sender_id==group_messages[j].receiver_id)&&(message.receiver_id==group_messages[j].sender_id)
+        messages[ j ][:count]=messages[ j ][:count]+counted[[message.sender_id, message.receiver_id]]
+        messages=messages-[messages[i]]
+        exit=1
+       end
+       j+=1
+      end
+      if (exit==0)
+      messages[i][:count]=counted[[message.sender_id, message.receiver_id]]
+      end
+    }
+    return messages.compact
   end
   #def add_to_friends!(friend)
   # friendships.create!(:friend => friend)
