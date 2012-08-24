@@ -8,10 +8,10 @@ class MessagesController < ApplicationController
 
 
   def chat_show
-    @title="Chat"
+    @title="Chat with"
     @messages=Message.chat_with_friend(current_user.id,params[:id]).paginate(:page => params[:page])
     @message = Message.new
-    Rails.logger.info "__________________search_____________________#{params.inspect}"
+    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @messages }
@@ -33,7 +33,7 @@ class MessagesController < ApplicationController
   def index
     @title="Messages"
     @messages = current_user.messages.paginate(:page => params[:page])
-
+Rails.logger.info "__________________search_____________________#{params.inspect}"
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @messages }
@@ -43,7 +43,7 @@ class MessagesController < ApplicationController
   def reverse
     @title="Reverse Messages"
     @messages = current_user.reverse_messages.paginate(:page => params[:page])
-
+Rails.logger.info "__________________search_____________________#{params.inspect}"
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @messages }

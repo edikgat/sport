@@ -1,6 +1,7 @@
 <%- model_class = Message -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => @title %></h1>
+  <h1><%=t '.title', :default => @title %> <%= User.find(params[:id]).first_name%>
+  </h1>
 </div>
 <%= will_paginate %>
 
@@ -38,16 +39,11 @@
 </table>
 <%= will_paginate %>
 
-<%= link_to t('.new', :default => t("helpers.links.new")),
-            new_message_path,
-            :class => 'btn btn-primary' %>
-<%= link_to 'Reverse', reverse_messages_path, :class => 'btn' %>
-<%= link_to 'Messages', messages_path, :class => 'btn' %>
+<%= link_to 'Chats', chats_path, :class => 'btn' %>
+
 
  
 <div class="page-header">
-  <h1><%=t '.title', :default => t('helpers.titles.new', :model => model_class.model_name.human,
-                                 :default => "New #{model_class.model_name.human}") %></h1>
 </div>
 
 <% if @messages[0].sender_id==current_user.id %>
@@ -72,3 +68,4 @@
                 messages_path, :class => 'btn' %>
   </div>
 <% end %>
+
