@@ -49,18 +49,18 @@
             <ul class="nav">
               <li><%= link_to "Home", root_path  %></li>
                <% if user_signed_in? %>
-               <li><%= link_to "Users page", user_path(current_user)  %></li>
-               <li><%= link_to "Messages", messages_path  %></li>
-               <li><%= link_to "My microposts", microposts_path  %></li>
+                <li><%= link_to "Users page", user_path(current_user)  %></li>
+                <li><%= link_to "Messages", messages_path  %></li>
+                <li><%= link_to "My microposts", microposts_path  %></li>
                 <li><%= link_to "Friends", friendships_path  %></li>
+                <li><%= link_to "Events", events_path  %></li>
+                <li><%= link_to "Users", users_path  %></li>
+                <li><% @search="Search" %>
+                  <%= form_for @search, :url => event_search_path(@search) do |f| %>
+                    <%= f.text_field :title123, data: { autocomplete_source: event_index_search_path } %>
+                    <%= f.submit "Event Search"%>
+                    <% end %>
                <% end %>
-               <li><%= link_to "Events", events_path  %></li>
-               <li><%= link_to "Users", users_path  %></li>
-         <li>   <% @search="Search" %>
-                 <%= form_for @search, :url => event_search_path(@search) do |f| %>
-                  <%= f.text_field :title123, data: { autocomplete_source: event_index_search_path } %>
-                   <%= f.submit "Event Search"%>
-                     <% end %>
              </li>
             </ul>
           </div><!--/.nav-collapse -->
@@ -75,17 +75,14 @@
             <ul class="nav nav-list">
               <li class="nav-header"></li>
                <li><%= link_to "Home", root_path  %></li>
-               <% if user_signed_in? %>
+                <% if user_signed_in? %>
                <li><%= link_to "Users page", user_path(current_user)  %></li>
                <li><%= link_to "Messages", messages_path  %></li>
                <li><%= link_to "My microposts", microposts_path  %></li>
-                <li><%= link_to "Friends", friendships_path  %></li>
-               <% end %>
+               <li><%= link_to "Friends", friendships_path  %></li>
                <li><%= link_to "Events", events_path  %></li>
                <li><%= link_to "Users", users_path  %></li>
-             
-              
-               
+            <% end %>
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
@@ -95,6 +92,7 @@
       </div><!--/row-->
 
       <footer>
+       
         <p> <% if user_signed_in? %>
           Signed in as <%= current_user.email %>. Not you?
           <%= link_to "Sign out", destroy_user_session_path %>

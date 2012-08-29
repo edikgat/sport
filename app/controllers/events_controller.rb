@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_filter :authenticate_user!, :except => [:show, :index]
+  before_filter :authenticate_user!#, :except => [:show, :all]
   # GET /events
   # GET /events.json
   #joined_and_master

@@ -1,4 +1,8 @@
 Sport::Application.routes.draw do
+  get "pages/home"
+
+  get "pages/contact"
+
   mount RedactorRails::Engine => '/redactor_rails'
 
   devise_for :users 

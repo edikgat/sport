@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
   attr_accessible :birth_date, :description, :email, :first_name,
     :last_name,:email, :password, :password_confirmation, :remember_me
  
+
+
   has_many :microposts, :dependent => :destroy
 
   has_many :users_events
@@ -88,9 +90,11 @@ class User < ActiveRecord::Base
     }
     return messages.compact
   end
-  #def add_to_friends!(friend)
-  # friendships.create!(:friend => friend)
-  #end
+
+  def add_to_friends!(friend)
+   friendships.create!(:friend => friend)
+  end
+
 end
 
 

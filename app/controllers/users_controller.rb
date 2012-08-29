@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!, :except => [:show, :index]
+  before_filter :authenticate_user!#, :except => [:show, :index]
   def index
-    @users = User.paginate(:page => params[:page])
+    @users = User.all.paginate(:page => params[:page])
     #@users = User.all
-
+   puts params
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @users }

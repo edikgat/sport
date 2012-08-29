@@ -1,5 +1,5 @@
 class FriendshipsController < ApplicationController
-  before_filter :authenticate_user!, :except => [:show, :index]
+  before_filter :authenticate_user!#, :except => [:show, :index]
   # GET /friendships
   # GET /friendships.json
   #автризованные друзья==authorized_friends
