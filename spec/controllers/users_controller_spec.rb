@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe UsersController do
 include Devise::TestHelpers
-render_views
+
 describe "access control" do
 
     it "should require signin to any action" do
@@ -20,10 +20,12 @@ describe "access control" do
 end
 
 
-describe "access control ok" do
+describe "for signed-in-users" do
 
   before (:each) do
     @user = FactoryGirl.create(:user)
+    @second = FactoryGirl.create(:user)
+    @last=FactoryGirl.create(:user)
     sign_in @user
   end
 
@@ -32,29 +34,48 @@ describe "access control ok" do
       get 'index'
       response.should be_success
     end
+
+    it "assigns all users as @users" do
+      get :index
+      assigns[:users].should include(@user)
+      assigns[:users].should include(@second)
+      assigns[:users].should include(@last)
+    end
   end
 
-  describe "GET 'show'" do
-    
-    it "should be successful" do
-      get :show, :id => @user.id
-      response.should be_success
-    end
-    
-    it "should find the right user" do
-      get :show, :id => @user.id
-      assigns(:user).should == @user
-    end
-    
+describe "search actons" do
+  before (:each) do
+    @attr = {
+      :email => "edik@example.com",
+      :password => "foobar",
+      :password_confirmation => "foobar",
+      :first_name => "Edik",
+      :last_name => "Gataullin",
+    }
+   @search_user=User.create(@attr)  
   end
-#####################
-  it "should have the right title" do
-  get 'home'
-  response.should have_selector("title",
-                    :content => "Ruby on Rails Tutorial Sample App | Home")
-   end
-####################
+
+
+  it "should find right user by last name" do
+    get :index_search, :term =>'Gataullin'
+    assigns[:users].should include(@search_user)
+    assigns[:users].should_not include(@user)
+  end
+
+  it "should find right user by email" do
+    get :email_index_search, :term =>'edik'
+    assigns[:users].should include(@search_user)
+    assigns[:users].should_not include(@user)
+  end
+
+  it "should redirect to user path after press search" do
+    post :search, :Search => {:title123=>'Gataullin'}
+    response.should redirect_to(user_path(@search_user))
+  end
 
 
 end
+
 end
+end
+

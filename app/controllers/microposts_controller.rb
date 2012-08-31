@@ -58,6 +58,9 @@ class MicropostsController < ApplicationController
     end
   end
 
+
+  
+
   def search
    if @micropost=current_user.microposts.find_by_content(params[:Search][:titlemicro])
    redirect_to @micropost

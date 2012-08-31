@@ -39,7 +39,7 @@ describe "access control" do
     end
 end
 
-describe "access control ok" do
+describe "for signed-in-users" do
   before (:each) do
     @user = FactoryGirl.create(:user)
     sign_in @user
@@ -52,6 +52,8 @@ describe "access control ok" do
       get 'index'
       response.should be_success
     end
+
+
   end
 
   describe "GET 'all'" do
@@ -75,6 +77,45 @@ describe "access control ok" do
       response.should be_success
     end 
   end
+
+
+describe "search actons" do
+ before(:each) do
+    @attr = {
+       :title => "new event",
+       :description => "event is event",
+       :members => 1,
+       :event_date => "2012-08-28 14:59:16",
+       :latitude => 50,
+       :longitude => 51
+       }
+       @attr1= {
+       :title => "badminton",
+       :description => "event is event",
+       :members => 1,
+       :event_date => "2012-08-28 14:59:20",
+       :latitude => 50,
+       :longitude => 51
+       }
+      
+       @event2=@user.events.create(@attr)
+       @event1=@user.events.create(@attr1)
+  end
+
+
+  it "should find right event by name" do
+    get :index_search, :term =>'badm'
+    assigns[:events].should include(@event1)
+  end
+
+  it "should redirect to event path after press search" do
+    post :search, :Search => {:title123=>'badminton'}
+    response.should redirect_to(event_path(@event1))
+  end
+end
+
+
+
 
 
  end

@@ -7,7 +7,7 @@ describe Event do
        :title => "new event",
        :description => "event is event",
        :members => 1,
-       :event_date => "2012-08-28 14:59:16",
+       :event_date => "2012-08-28 14:59:16"
        }
        @attr_with_coordinates = {
        :title => "new event with with_coordinates",

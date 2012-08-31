@@ -20,6 +20,7 @@ class EventsController < ApplicationController
 
   def index_search
     @events = Event.order(:title).where("title like ?", "%#{params[:term]}%")
+    render json: @events.map(&:title)
   end
 
 

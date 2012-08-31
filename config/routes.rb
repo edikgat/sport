@@ -22,6 +22,7 @@ Sport::Application.routes.draw do
   
   resources :microposts
   post '/micropost_search' => "microposts#search"
+  
 
 
 

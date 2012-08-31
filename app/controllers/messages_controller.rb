@@ -62,7 +62,6 @@ class MessagesController < ApplicationController
   if params[:receiver]
     receiver=params[:receiver]
   end
-  
   @message = current_user.messages.build(:content=>params[:message][:content], :receiver_id=>receiver)
     respond_to do |format|
       if @message.valid?
