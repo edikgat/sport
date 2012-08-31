@@ -70,7 +70,7 @@ describe "index stile of actions" do
      @event2=@user.events.create(@attr)
      @event1=@user.events.create(@attr1)
      @other_user=FactoryGirl.create(:user)
-     @other_user_event=@other_user.events.create(@attr)
+     @other_user_event=@other_user.events.create(@attr1)
      q=UsersEvent.find_by_event_id(@event1.id)
      q[:role]=true
      q.save
@@ -95,7 +95,6 @@ describe "index stile of actions" do
       assigns[:events].should_not include(@other_user_event)
     end
 
-
   end
 
   describe "GET 'all'" do
@@ -104,7 +103,7 @@ describe "index stile of actions" do
       response.should be_success
     end
 
-      it "assigns all user events as @events" do
+      it "assigns all events as @events" do
       get :all
       assigns[:events].should include(@event2)
       assigns[:events].should include(@event1)
@@ -231,7 +230,39 @@ end
     
   end
 
-  
+   describe "PUT 'update'" do
+    
+
+    describe "failure" do
+      
+      before(:each) do
+        @attr = { :title => "", :description => "", :event_date => "",
+                  :members => "" }
+      end
+      
+      it "should render the 'edit' page" do
+        put :update, :id => @event, :event => @attr
+        response.should render_template('edit')
+      end
+     
+    end
+
+    describe "success" do
+      
+      it "should change the user's attributes" do
+        put :update, :id => @event, :event => @attr
+        @event.reload
+        @event.title.should == @attr[:title]
+        @event.description.should == @attr[:description]
+        @event.members.should == @attr[:members]
+      end
+
+    end
+  end
+
+
+
+
 
 
 

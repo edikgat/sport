@@ -47,7 +47,13 @@ class User < ActiveRecord::Base
   end
 
    def can_edit_event?(event)
-    (UsersEvent.find_by_event_id_and_user_id(event.id, id)[:role]==true) ? true : false
+    a=true
+    if UsersEvent.find_by_event_id_and_user_id(event.id, id)
+       (UsersEvent.find_by_event_id_and_user_id(event.id, id)[:role]==true) ? a=true : a=false
+    else
+      a=false
+    end
+    return a
    end
 
   def all_chats_with_user
