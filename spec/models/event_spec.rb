@@ -26,8 +26,7 @@ describe Event do
   describe "user associations" do
     
     before(:each) do
-      @event = @user.events.create(@attr)
-      
+      @event = @user.events.create(@attr)   
     end
     
     it "should have a users attribute" do

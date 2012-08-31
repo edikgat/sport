@@ -9,30 +9,25 @@ describe Friendship do
   end
   
   it "should create a new instance with valid attributes" do
-    @user.friendships.create!(@attr)
-    
+    @user.friendships.create!(@attr)  
   end
   
   describe "follow methods" do
     
     before(:each) do
-      @friendship = @user.friendships.create!(@attr)
-      
+      @friendship = @user.friendships.create!(@attr)  
     end
     
     it "should have a user attribute" do
-      @friendship.should respond_to(:user)
-      
+      @friendship.should respond_to(:user)    
     end
     
     it "should have the right follower" do
       @friendship.user.should == @user
-      
     end
 
     it "should have a friend attribute" do
       @friendship.should respond_to(:friend)
-      
     end
     
     it "should have the right friend user" do
@@ -43,8 +38,7 @@ describe Friendship do
 
   describe "validations" do
     before(:each) do
-      @friendship = @user.friendships.create!(@attr)
-      
+      @friendship = @user.friendships.create!(@attr)  
     end
     
     it "should require a user id" do

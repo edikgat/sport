@@ -3,5 +3,5 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
  
 jQuery ->
-  $('#Search_title123').autocomplete
-    source: $('#Search_title123').data('autocomplete-source')
+  $('#Search_titlemicro').autocomplete
+    source: $('#Search_titlemicro').data('autocomplete-source')

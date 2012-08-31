@@ -12,7 +12,7 @@ describe Message do
     @user.messages.create!(@attr)
   end
   
-  describe "user associations" do
+  describe "sender and receiver associations" do
     
     before(:each) do
       @message = @user.messages.create(@attr)
@@ -26,54 +26,79 @@ describe Message do
       @message.should respond_to(:receiver)
     end
     
-    it "should have the right associated user" do
-      @micropost.user_id.should == @user.id
-      @micropost.user.should == @user
+    it "should have the right associated sender" do
+      @message.sender_id.should == @user.id
+      @message.sender.should == @user
+    end
+
+    it "should have the right associated receiver" do
+      @message.receiver_id.should == @friend.id
+      @message.receiver.should == @friend
     end
   end
   
   describe "validations" do
 
-    it "should have a user id" do
-      Micropost.new(@attr).should_not be_valid
+    it "should have a sender id" do
+      Message.new(@attr).should_not be_valid
+    end
+
+    it "should have a receiver id" do
+      Message.new(@attr).should_not be_valid
     end
 
     it "should require nonblank content" do
-      @user.microposts.build(:content => " ").should_not be_valid
+      @user.messages.build(:content => " ").should_not be_valid
     end
     
-    it "should reject long content" do
-      @user.microposts.build(:content => "a" * 141).should_not be_valid
-    end
   end
 
   describe "from_users_followed_by" do
     
     before(:each) do
-      @other_user = Factory(:user, :email => Factory.next(:email))
-      @third_user = Factory(:user, :email => Factory.next(:email))
-      
-      @user_post = @user.microposts.create!(:content => "foo")
-      @other_post = @other_user.microposts.create!(:content => "bar")
-      @third_post = @third_user.microposts.create!(:content => "baz")
-      
-      @user.follow!(@other_user)
+      @other_user = FactoryGirl.create(:user)      
+      @user_message = @user.messages.create!(@attr)
+      @friend_message = @friend.messages.create!(:content =>"bar", :receiver_id=> @user.id)
+      @other_message = @other_user.messages.create!(:content => "baz", :receiver_id=> @friend.id)
+      @third_message = @other_user.messages.create!(:content => "baz", :receiver_id=> @user.id)
+  
     end
     
-    it "should have a from_users_followed_by method" do
-      Micropost.should respond_to(:from_users_followed_by)
+    it "should have a all messages with user scope" do
+      Message.should respond_to(:all_messages_with_user)
+    end
+
+    it "should have a chat_with_friend scope" do
+      Message.should respond_to(:chat_with_friend)
+    end
+
+    it "all_messages_with_user should include received messages" do
+      Message.all_messages_with_user(@user.id).should include(@friend_message)
+    end
+
+    it "all_messages_with_user should include messages there user is sender" do
+      Message.all_messages_with_user(@user.id).should include(@user_message)
+    end
+
+    it "all_messages_with_user should not include other messages" do
+      Message.all_messages_with_user(@user.id).should_not include(@other_message)
+    end
+
+    it "chat_with_friend should include received friends messages" do
+      Message.chat_with_friend(@user.id,@friend.id).should include(@friend_message)
     end
     
-    it "should include the followed user's microposts" do
-      Micropost.from_users_followed_by(@user).should include(@other_post)
+    it "chat_with_friend should include users messages to friend" do
+      Message.chat_with_friend(@user.id,@friend.id).should include(@user_message)
     end
     
-    it "should include the user's own microposts" do
-      Micropost.from_users_followed_by(@user).should include(@user_post)
+    it "chat_with_friend should not include other messages to user" do
+      Message.chat_with_friend(@user.id,@friend.id).should_not include(@third_message)
     end
-    
-    it "should not include an unfollowed user's microposts" do
-      Micropost.from_users_followed_by(@user).should_not include(@third_post)
+
+    it "chat_with_friend should not include any other other messages" do
+      Message.chat_with_friend(@user.id,@friend.id).should_not include(@other_message)
     end
+
   end
 end

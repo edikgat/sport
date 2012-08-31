@@ -3,6 +3,24 @@ require 'spec_helper'
 describe UsersController do
 include Devise::TestHelpers
 render_views
+describe "access control" do
+
+    it "should require signin to any action" do
+      get :index
+      response.should redirect_to(new_user_session_path)
+      get :show, :id => 1
+      response.should redirect_to(new_user_session_path)
+      post :search
+      response.should redirect_to(new_user_session_path)
+      get :index_search
+      response.should redirect_to(new_user_session_path)
+      get :email_index_search
+      response.should redirect_to(new_user_session_path)
+    end
+end
+
+
+describe "access control ok" do
 
   before (:each) do
     @user = FactoryGirl.create(:user)
@@ -38,4 +56,5 @@ render_views
 ####################
 
 
+end
 end

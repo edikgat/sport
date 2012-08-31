@@ -103,7 +103,6 @@ describe User do
     end
 
   end
-#####################################################
 
     describe "micropost associations" do
     
@@ -276,7 +275,7 @@ describe User do
       @user.master_events.should == [@master_event]
     end
 
-     it "should have the right events" do
+    it "should have the right events" do
       @user.events.should == [@master_event, @joined_event]
     end
 

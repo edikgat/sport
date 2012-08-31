@@ -42,30 +42,30 @@ class User < ActiveRecord::Base
     Friendship.my_friends(id, friend.id).present? || (id == friend.id) ? false : true
   end
 
+#
+#  def my_chat(friend)
+#    chat=self.messages.where("receiver_id= (?)",friend.id)+self.reverse_messages.where("sender_id= (?)",friend.id)
+#    return chat.sort_by(&:created_at)
+#  end
 
-  def my_chat(friend)
-    chat=self.messages.where("receiver_id= (?)",friend.id)+self.reverse_messages.where("sender_id= (?)",friend.id)
-    return chat.sort_by(&:created_at)
-  end
+ # def chats
+ #   messages + reverse_messages
+ # end
 
-  def chats
-    messages + reverse_messages
-  end
+#  def chat_with
+#    all_id_pairs = chats.map { |c| [c.sender_id, c.receiver_id] }
+#    unique_ids = []
+#    all_id_pairs.each { |p| p.each { |i| unique_ids << i } }
+#    unique_ids = unique_ids.uniq.reject! { |i| i == id }
 
-  def chat_with
-    all_id_pairs = chats.map { |c| [c.sender_id, c.receiver_id] }
-    unique_ids = []
-    all_id_pairs.each { |p| p.each { |i| unique_ids << i } }
-    unique_ids = unique_ids.uniq.reject! { |i| i == id }
+#    chat_pairs = []
+#    unique_ids.each do |unique_id|
+#      chat_pairs << chats.
+#        select { |c| c.sender_id == unique_id || c.receiver_id == unique_id }
+#    end
 
-    chat_pairs = []
-    unique_ids.each do |unique_id|
-      chat_pairs << chats.
-        select { |c| c.sender_id == unique_id || c.receiver_id == unique_id }
-    end
-
-    chat_pairs
-  end
+#    chat_pairs
+#  end
 
 
   def all_chats_with_user
@@ -76,7 +76,7 @@ class User < ActiveRecord::Base
     messages[i]=message
     j=0  
     exit=0
-      while  (j<i) do  
+      while  (j<i)&&(exit==0) do  
        if (message.sender_id==group_messages[j].receiver_id)&&(message.receiver_id==group_messages[j].sender_id)
         messages[ j ][:count]=messages[ j ][:count]+counted[[message.sender_id, message.receiver_id]]
         messages=messages-[messages[i]]
