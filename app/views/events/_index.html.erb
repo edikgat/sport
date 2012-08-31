@@ -23,7 +23,7 @@
         <td><%= event.members %></td>
         
         <td>
-          <% if event.users_events.find_by_user_id_and_role(current_user.id,true) %>
+          <% if current_user.can_edit_event?(event) %>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_event_path(event), :class => 'btn btn-mini' %>
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),

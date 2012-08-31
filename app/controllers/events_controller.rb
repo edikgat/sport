@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   before_filter :authenticate_user!
-  
+
   def index
     @title="My events"
     @titlesearch
@@ -8,19 +8,6 @@ class EventsController < ApplicationController
     respond_to do |format|
       format.html
     end
-  end
-
-  def search
-   if @event=Event.find_by_title(params[:Search][:title123])
-   redirect_to @event
-   else
-    redirect_to events_path
-    end
-  end
-
-  def index_search
-    @events = Event.order(:title).where("title like ?", "%#{params[:term]}%")
-    render json: @events.map(&:title)
   end
 
 
@@ -34,13 +21,15 @@ class EventsController < ApplicationController
 
   def joined
     @title="Joined events"
-    users_events = current_user.users_events.where(:role => false).paginate(:page => params[:page])
-    @events = []
-    users_events.each do |user_event| 
-      @events << user_event.event
+    users_events = current_user.users_events.where(:role => false)
+    events = []
+    users_events.each do |user_event|
+      events << user_event.event
     end
+    events.compact!
+    @events=events.paginate(:page => params[:page])
     respond_to do |format|
-      format.html
+      format.html 
     end
   end
 
@@ -119,4 +108,21 @@ class EventsController < ApplicationController
       format.html { redirect_to events_url }
     end
   end
+
+
+  def search
+   if @event=Event.find_by_title(params[:Search][:title123])
+   redirect_to @event
+   else
+    redirect_to events_path
+    end
+  end
+
+  def index_search
+    @events = Event.order(:title).where("title like ?", "%#{params[:term]}%")
+    render json: @events.map(&:title)
+  end
+
+
+
 end

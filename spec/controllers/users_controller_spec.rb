@@ -20,6 +20,7 @@ describe "access control" do
 end
 
 
+
 describe "for signed-in-users" do
 
   before (:each) do
@@ -28,6 +29,19 @@ describe "for signed-in-users" do
     @last=FactoryGirl.create(:user)
     sign_in @user
   end
+
+    describe "Get 'Show'" do
+     it "should find the right user" do
+      get :show, :id => @user
+      assigns(:user).should == @user
+    end
+    it "should be successful" do
+      get :show, :id => @user
+      response.should be_success
+    end
+  end   
+
+
 
   describe "GET 'index'" do
     it "returns http success" do

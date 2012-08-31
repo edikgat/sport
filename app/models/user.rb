@@ -42,31 +42,13 @@ class User < ActiveRecord::Base
     Friendship.my_friends(id, friend.id).present? || (id == friend.id) ? false : true
   end
 
-#
-#  def my_chat(friend)
-#    chat=self.messages.where("receiver_id= (?)",friend.id)+self.reverse_messages.where("sender_id= (?)",friend.id)
-#    return chat.sort_by(&:created_at)
-#  end
+  def can_join?(event)
+    (UsersEvent.find_by_event_id_and_user_id(event.id, id)[:role]==true)&&(UsersEvent.find_by_event_id_and_user_id(event.id, id)) ? false : true
+  end
 
- # def chats
- #   messages + reverse_messages
- # end
-
-#  def chat_with
-#    all_id_pairs = chats.map { |c| [c.sender_id, c.receiver_id] }
-#    unique_ids = []
-#    all_id_pairs.each { |p| p.each { |i| unique_ids << i } }
-#    unique_ids = unique_ids.uniq.reject! { |i| i == id }
-
-#    chat_pairs = []
-#    unique_ids.each do |unique_id|
-#      chat_pairs << chats.
-#        select { |c| c.sender_id == unique_id || c.receiver_id == unique_id }
-#    end
-
-#    chat_pairs
-#  end
-
+   def can_edit_event?(event)
+    (UsersEvent.find_by_event_id_and_user_id(event.id, id)[:role]==true) ? true : false
+   end
 
   def all_chats_with_user
     group_messages=Message.all_messages_with_user(id).group("sender_id", "receiver_id");
