@@ -43,7 +43,15 @@ class User < ActiveRecord::Base
   end
 
   def can_join?(event)
-    (UsersEvent.find_by_event_id_and_user_id(event.id, id)[:role]==true)&&(UsersEvent.find_by_event_id_and_user_id(event.id, id)) ? false : true
+    if UsersEvent.find_by_event_id_and_user_id(event.id, id)
+      if UsersEvent.find_by_event_id_and_user_id(event.id, id)[:role]==false
+        return true
+      else
+        return false
+      end
+    else
+      return true
+    end
   end
 
    def can_edit_event?(event)
@@ -55,6 +63,18 @@ class User < ActiveRecord::Base
     end
     return a
    end
+
+  def join_event?(event)
+    unless UsersEvent.find_by_event_id_and_user_id(event.id, id)
+      UsersEvent.create(:event_id=> event.id, :user_id=> id)
+      q=event.members+1
+      event.update_attributes(:members=>q)
+      return true
+    else
+      return false
+    end
+  end
+
 
   def all_chats_with_user
     group_messages=Message.all_messages_with_user(id).group("sender_id", "receiver_id");

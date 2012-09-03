@@ -72,8 +72,8 @@ class EventsController < ApplicationController
         param[:members]=1
         @event=current_user.events.create(param)
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
-        format.json { render json: @event, status: :created, location: @event }
-        q=UsersEvent.find_by_event_id(@event.id)
+       # format.json { render json: @event, status: :created, location: @event }
+        q=UsersEvent.find_by_event_id_and_user_id(@event.id,current_user.id)
         q[:role]=true
         q.save
       else
@@ -93,15 +93,21 @@ class EventsController < ApplicationController
     end
   end
 
-  def join
+   def join
+    Rails.logger.info "__________________params_____________________#{params.inspect}" 
    @event = Event.find(params[:event_id])
-   @users_event = UsersEvent.create!(:event_id=>params[:event_id], :user_id=>current_user.id)
-   q=@event.members+1
-   @event.update_attributes(:members=>q)
-   redirect_to events_path
-   end
+    if current_user.join_event?(@event)
+     flash.now[:success] = "You could not join to this event"
+    else
+     flash.now[:error] = "You have joined to this event"
+    end
+    redirect_to events_path
+  end
+
+
 
   def destroy
+
     @event = Event.find(params[:id])
     @event.destroy
     respond_to do |format|

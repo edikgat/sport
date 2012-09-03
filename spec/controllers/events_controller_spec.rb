@@ -237,7 +237,7 @@ end
       
       before(:each) do
         @attr = { :title => "", :description => "", :event_date => "",
-                  :members => "" }
+                  :members => "", :event_date => "2012-08-28 14:59:20" }
       end
       
       it "should render the 'edit' page" do
@@ -249,16 +249,50 @@ end
 
     describe "success" do
       
-      it "should change the user's attributes" do
+      it "should change the event's attributes" do
         put :update, :id => @event, :event => @attr
         @event.reload
         @event.title.should == @attr[:title]
         @event.description.should == @attr[:description]
         @event.members.should == @attr[:members]
+        @event.event_date.should == @attr[:event_date]
       end
 
     end
   end
+
+
+    describe "DELETE 'destroy'" do
+  
+        before(:each) do
+          @event_destroy=@user.events.create(@attr1)
+        end
+      
+      it "should destroy the micropost" do
+        lambda do
+          delete :destroy, :id => @event_destroy
+         # flash[:success].should =~ /deleted/i
+          response.should redirect_to(events_path)
+        end.should change(Event, :count).by(-1)
+      end
+    end
+
+      describe "Post 'Join'" do
+  
+        before(:each) do
+          @other_user=FactoryGirl.create(:user)
+          @event_join=@other_user.events.create(@attr1)
+        end
+      
+      it "should join the event" do
+        lambda do
+          post :join, :event_id => @event_join    
+          response.should redirect_to(events_path)
+        end.should change(UsersEvent, :count).by(1)
+      end
+    end
+  
+  
 
 
 
