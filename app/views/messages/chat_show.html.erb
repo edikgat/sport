@@ -25,6 +25,8 @@
         <td><%= User.find(message.receiver_id).email %></td>
         <td><%=l message.created_at %></td>
         <td>
+          <% if message.sender==current_user %>
+
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_message_path(message), :class => 'btn btn-mini' %>
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
@@ -32,6 +34,7 @@
                       :method => :delete,
                       :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')),
                       :class => 'btn btn-mini btn-danger' %>
+            <% end %>
         </td>
       </tr>
     <% end %>
@@ -46,26 +49,29 @@
 <div class="page-header">
 </div>
 
+
 <% if @messages[0].sender_id==current_user.id %>
-<% receiver=@messages[0].receiver_id %>
+<% receiver_email=User.find(@messages[0].receiver_id).email %>
 <% else %>
-<% receiver=@messages[0].sender_id %>
+<% receiver_email=User.find(@messages[0].sender_id).email %>
 <% end %>
 
-<%= form_for @message, :html => { :class => 'form-horizontal' } do |f| %>
-  <div class="control-group">
+
+<% @message_to_user="Message_to_user" %>
+<%= form_for @message_to_user, :url => messages_path(@search) do |f| %>
+ <div class="control-group">
     <%= f.label :content, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_area :content, :class=>'redactor' %>
+     <%= f.text_area :content, :class=>'redactor' %>
+     
+  </div>
     </div>
-  </div>
-  
-  <%= hidden_field_tag(:receiver, receiver) %>
- 
-  <div class="form-actions">
-    <%= f.submit nil, :class => 'btn btn-primary' %>
-    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+   <div class="form-actions">
+      <%= hidden_field_tag(:receiver_email, receiver_email) %>
+    <%= f.submit "Send",:class => 'btn btn-primary'%>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
                 messages_path, :class => 'btn' %>
-  </div>
+                  </div>
 <% end %>
+
 

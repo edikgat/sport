@@ -258,6 +258,31 @@ describe User do
       @user.users_events.create(:event_id=>@joined_event.id)
 
     end
+
+    it "should have a can_join? method" do
+      @user.should respond_to(:can_join?)
+    end
+
+    it "can_join? method should work" do
+      
+      @user.can_join?(@master_event).should be_false
+      @user.can_join?(@event).should be_true
+      @user.can_join?(@joined_event).should be_false
+    end
+
+    it "should have a can_edit_event? method" do
+      @user.should respond_to(:can_edit_event?)
+    end
+
+    it "can_edit_event? method should work" do
+      @user.can_edit_event?(@joined_event).should be_false
+      @user.can_edit_event?(@master_event).should be_true
+      @user.can_edit_event?(@event).should be_false
+    end
+
+
+
+
     
      it "should have a events method" do
       @user.should respond_to(:events)

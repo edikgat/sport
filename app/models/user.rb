@@ -42,27 +42,7 @@ class User < ActiveRecord::Base
     Friendship.my_friends(id, friend.id).present? || (id == friend.id) ? false : true
   end
 
-  def can_join?(event)
-    if UsersEvent.find_by_event_id_and_user_id(event.id, id)
-      if UsersEvent.find_by_event_id_and_user_id(event.id, id)[:role]==false
-        return true
-      else
-        return false
-      end
-    else
-      return true
-    end
-  end
-
-   def can_edit_event?(event)
-    a=true
-    if UsersEvent.find_by_event_id_and_user_id(event.id, id)
-       (UsersEvent.find_by_event_id_and_user_id(event.id, id)[:role]==true) ? a=true : a=false
-    else
-      a=false
-    end
-    return a
-   end
+  
 
   def join_event?(event)
     unless UsersEvent.find_by_event_id_and_user_id(event.id, id)
@@ -102,6 +82,25 @@ class User < ActiveRecord::Base
   def add_to_friends!(friend)
    friendships.create!(:friend => friend)
   end
+
+
+  def can_join?(event)
+    if UsersEvent.find_by_event_id_and_user_id(event.id, id)
+        return false
+    else
+      return true
+    end
+  end
+
+   def can_edit_event?(event)
+    a=true
+    if UsersEvent.find_by_event_id_and_user_id(event.id, id)
+       (UsersEvent.find_by_event_id_and_user_id(event.id, id)[:role]==true) ? a=true : a=false
+    else
+      a=false
+    end
+    return a
+   end
 
 end
 

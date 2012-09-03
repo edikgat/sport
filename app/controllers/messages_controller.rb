@@ -55,23 +55,41 @@ class MessagesController < ApplicationController
     @message = Message.find(params[:id])
   end
 
-  def create    
-  if params[:message].present? && params[:message][:receiver_id].present?
-    receiver = User.find_by_email(params[:message][:receiver_id]).id
+  def create
+    chat=0;
+    exit=0
+  if params[:receiver_email].present?
+    receiver_id=User.find_by_email(params[:receiver_email]).id
+    chat=1;
+  else
+    if params[:Message_to_user][:receiver_email].present?
+    receiver_id=User.find_by_email(params[:Message_to_user][:receiver_email]).id
+    else  
+ 
+      exit=1
+    end
   end
-  if params[:receiver]
-    receiver=params[:receiver]
-  end
-  @message = current_user.messages.build(:content=>params[:message][:content], :receiver_id=>receiver)
+  if exit==1
+    redirect_to new_message_path
+  else
+  @message = current_user.messages.build(:content=>params[:Message_to_user][:content], :receiver_id=>receiver_id)
     respond_to do |format|
       if @message.valid?
-        @message = current_user.messages.create(:content => params[:message][:content], :receiver_id => receiver)
-        format.html { redirect_to @message, notice: 'Message was successfully created.' }
+        @message = current_user.messages.create(:content=>params[:Message_to_user][:content], :receiver_id=>receiver_id)
+        if chat==0
+          format.html { redirect_to @message, notice: 'Message was successfully created.' }
+         else
+          format.html { redirect_to chat_path(receiver_id), notice: 'Message was successfully created.' }
+        end
       else
         format.html { render action: "new" }
       end
     end
   end
+end
+
+
+
   
   def update
     @message = Message.find(params[:id])

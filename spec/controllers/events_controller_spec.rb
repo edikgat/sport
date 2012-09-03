@@ -63,7 +63,7 @@ describe "for signed-in-users" do
        }
   end
 
-describe "index stile of actions" do  
+describe "index style of actions" do  
      
 
      before (:each) do 

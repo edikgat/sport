@@ -1,4 +1,6 @@
-<%= form_for @message, :html => { :class => 'form-horizontal' } do |f| %>
+
+<% @message_to_user="Message_to_user" %>
+<%= form_for @message_to_user, :url => messages_path(@search) do |f| %>
   <div class="control-group">
     <%= f.label :content, :class => 'control-label' %>
     <div class="controls">
@@ -6,16 +8,15 @@
     </div>
   </div>
 
-  <div class="control-group">
-    <%= f.label  ("Search by users email") %><br />
+    <div class="control-group">
+     <%= f.label  ("Search by users email") %><br />
      <div class="controls">
-    <%= f.text_field :receiver_id, data: { autocomplete_source: user_email_index_search_path } %>
-  </div> 
+      <%= f.text_field :receiver_email, data: { autocomplete_source: user_email_index_search_path } %>
+       </div> 
 </div>
-
-  <div class="form-actions">
-    <%= f.submit nil, :class => 'btn btn-primary' %>
-    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+ <div class="form-actions">
+    <%= f.submit "Send",:class => 'btn btn-primary'%>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
                 messages_path, :class => 'btn' %>
-  </div>
+                  </div>
 <% end %>

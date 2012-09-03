@@ -94,7 +94,7 @@ class EventsController < ApplicationController
   end
 
    def join
-    Rails.logger.info "__________________params_____________________#{params.inspect}" 
+  #  Rails.logger.info "__________________params_____________________#{params.inspect}" 
    @event = Event.find(params[:event_id])
     if current_user.join_event?(@event)
      flash.now[:success] = "You could not join to this event"
