@@ -9,8 +9,8 @@ gem 'rails', '3.2.6'
 gem 'devise'
 gem 'gravatar_image_tag'
 gem 'will_paginate'
-gem "carrierwave"
-gem "mini_magick"
+#gem "carrierwave"
+#gem "mini_magick"
 gem 'jquery-rails'
 gem 'redactor-rails'
 gem 'fancybox-rails'

@@ -29,4 +29,5 @@ test:
   encoding: utf-8
   database: edikgat_production
   pool: 5
+  timeout: 5000
   username: edikgat
