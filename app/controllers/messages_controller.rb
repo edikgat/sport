@@ -19,7 +19,7 @@ class MessagesController < ApplicationController
   end
 
    def chat_show
-    @title="Chat with"
+    @title = "Chat with"
     @messages = Message.chat_with_friend(current_user.id,params[:id]).paginate(:page => params[:page])
     @message = Message.new
     respond_to do |format|

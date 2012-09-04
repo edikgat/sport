@@ -2,7 +2,7 @@ class FriendshipsController < ApplicationController
   before_filter :authenticate_user!
   
   def index    
-    @users=User.friends_wich_accepted(current_user.id).paginate(:page => params[:page])
+    @users = User.friends_wich_accepted(current_user.id).paginate(:page => params[:page])
     respond_to do |format|
       format.html   
     end
