@@ -1,16 +1,12 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
- # before_filter :show_me_params
-#@title="d;lfkjds;lfkjds"
-
+protected
     def after_update_path_for(resource)
       user_path(resource)
     end
 
-   
-
-def after_sign_in_path_for(resource)
+    def after_sign_in_path_for(resource)
           user_path(resource)
     end
 

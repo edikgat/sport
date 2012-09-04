@@ -3,5 +3,5 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
  
 jQuery ->
-  $('#message_receiver_id').autocomplete
-    source: $('#message_receiver_id').data('autocomplete-source')
+  $('#Message_to_user_receiver_email').autocomplete
+    source: $('#Message_to_user_receiver_email').data('autocomplete-source')
