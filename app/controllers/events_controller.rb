@@ -9,10 +9,17 @@ class EventsController < ApplicationController
       format.html
     end
   end
+<<<<<<< HEAD
 
 
   def master
     @title ="Events that i create"
+=======
+
+
+  def master
+    @title="Events that i create"
+>>>>>>> 56d95f618e3744eb3809a5ec2e84dd6c9fa01b42
     @events = current_user.master_events.paginate(:page => params[:page])
     respond_to do |format|
       format.html
@@ -27,14 +34,22 @@ class EventsController < ApplicationController
       events << user_event.event
     end
     events.compact!
+<<<<<<< HEAD
     @events = events.paginate(:page => params[:page])
+=======
+    @events=events.paginate(:page => params[:page])
+>>>>>>> 56d95f618e3744eb3809a5ec2e84dd6c9fa01b42
     respond_to do |format|
       format.html 
     end
   end
 
   def all
+<<<<<<< HEAD
     @title = "All events"
+=======
+    @title="All events"
+>>>>>>> 56d95f618e3744eb3809a5ec2e84dd6c9fa01b42
     @events = Event.paginate(:page => params[:page])
     respond_to do |format|
       format.html
@@ -43,10 +58,17 @@ class EventsController < ApplicationController
 
   def show
     @event = Event.find(params[:id])
+<<<<<<< HEAD
     @width = 500
     @latitude = @event.latitude
     @longitude = @event.longitude
     @zoom = 12
+=======
+    @width=500
+    @latitude=@event.latitude
+    @longitude=@event.longitude
+    @zoom=12
+>>>>>>> 56d95f618e3744eb3809a5ec2e84dd6c9fa01b42
     respond_to do |format|
       format.html
     end
@@ -65,7 +87,11 @@ class EventsController < ApplicationController
 
   def create
     @event = current_user.events.build(params[:event])
+<<<<<<< HEAD
     @event[:members] = 1
+=======
+    @event[:members]=1
+>>>>>>> 56d95f618e3744eb3809a5ec2e84dd6c9fa01b42
     respond_to do |format|
       if @event.valid?      
         param=params[:event]
@@ -73,7 +99,13 @@ class EventsController < ApplicationController
         @event = current_user.events.create(param)
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
        # format.json { render json: @event, status: :created, location: @event }
+<<<<<<< HEAD
         UsersEvent.find_by_event_id_and_user_id(@event.id,current_user.id).update_attributes(role: true)
+=======
+        q=UsersEvent.find_by_event_id_and_user_id(@event.id,current_user.id)
+        q[:role]=true
+        q.save
+>>>>>>> 56d95f618e3744eb3809a5ec2e84dd6c9fa01b42
       else
         format.html { render action: "new" }
       end
@@ -115,7 +147,11 @@ class EventsController < ApplicationController
 
 
   def search
+<<<<<<< HEAD
    if @event = Event.find_by_title(params[:Search][:title123])
+=======
+   if @event=Event.find_by_title(params[:Search][:title123])
+>>>>>>> 56d95f618e3744eb3809a5ec2e84dd6c9fa01b42
    redirect_to @event
    else
     redirect_to events_path

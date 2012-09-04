@@ -18,3 +18,18 @@ test:
   pool: 5
   timeout: 5000
 
+<<<<<<< HEAD
+=======
+#production:
+#  adapter: sqlite3
+#  database: db/production.sqlite3
+#  pool: 5
+ # timeout: 5000
+ production:
+  adapter: postgresql
+  encoding: utf-8
+  database: edikgat_production
+  pool: 5
+  timeout: 5000
+  #username: edikgat
+>>>>>>> 56d95f618e3744eb3809a5ec2e84dd6c9fa01b42
