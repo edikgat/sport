@@ -15,11 +15,7 @@ class UsersController < ApplicationController
   end
 
   def search
-<<<<<<< HEAD
    if @user = User.find_by_last_name(params[:Search][:title123])
-=======
-   if @user=User.find_by_last_name(params[:Search][:title123])
->>>>>>> 56d95f618e3744eb3809a5ec2e84dd6c9fa01b42
       redirect_to @user
    else
       redirect_to users_path

@@ -90,11 +90,7 @@ class User < ActiveRecord::Base
    def can_edit_event?(event)
     a=true
     if UsersEvent.find_by_event_id_and_user_id(event.id, id)
-<<<<<<< HEAD
        (UsersEvent.find_by_event_id_and_user_id(event.id, id)[:role] == true) ? a = true : a = false
-=======
-       (UsersEvent.find_by_event_id_and_user_id(event.id, id)[:role] == true) ? a = true : a = alse
->>>>>>> 56d95f618e3744eb3809a5ec2e84dd6c9fa01b42
     else
       a = false
     end
