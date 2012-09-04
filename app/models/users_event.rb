@@ -10,7 +10,5 @@ class UsersEvent < ActiveRecord::Base
     :message => "Should be only once" }
   validates :user_id, :uniqueness => { :scope => :event_id,
     :message => "Should be only once" }
-  
-
-
+    
 end
