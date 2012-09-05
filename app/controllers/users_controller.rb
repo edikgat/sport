@@ -1,25 +1,18 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!
+  
   def index
     @users = User.all.paginate(:page => params[:page])
-    respond_to do |format|
-      format.html
-    end
   end
 
   def show
     @user = User.find(params[:id])
-    respond_to do |format|
-      format.html
-    end
   end
 
   def search
-   if @user = User.find_by_last_name(params[:Search][:title123])
-      redirect_to @user
-   else
-      redirect_to users_path
-   end
+    @user = User.find_by_last_name(params[:Search][:title123])
+    
+    redirect_to ( @user.present? ? @user : users_path)
   end
 
   def index_search
@@ -31,5 +24,4 @@ class UsersController < ApplicationController
     @users = User.order(:email).where("email like ?", "%#{params[:term]}%")
     render json: @users.map(&:email)
   end
-
 end

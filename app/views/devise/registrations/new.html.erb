@@ -2,22 +2,19 @@
 
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
- <%= gravatar_for @user %>
+  <%= gravatar_for @user %>
 
-  <a href="http://gravatar.com/emails">
-    <p>change</a></p>
-  </div>
+  <%= link_to "http://gravatar.com/emails" do %>
+    <p>change</p>
+  <% end %>
+
   <div><%= f.label :email %><br />
   <%= f.email_field :email %></div>
-
   <div><%= f.label :password %><br />
   <%= f.password_field :password %></div>
-
   <div><%= f.label :password_confirmation %><br />
   <%= f.password_field :password_confirmation %></div>
-
-
-<div class="field">
+  <div class="field">
     <%= f.label :first_name %><br />
     <%= f.text_field :first_name %>
   </div>
@@ -31,11 +28,8 @@
   </div>
   <div class="field">
     <%= f.label :birth_date %><br />
-    <%= f.date_select :birth_date %>
+    <%= f.date_select :birth_date, :start_year => 1960 %>
   </div>
-
-
-
 
   <div><%= f.submit "Sign up" %></div>
 <% end %>

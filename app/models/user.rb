@@ -8,8 +8,6 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :birth_date, :description, :email, :first_name,
     :last_name,:email, :password, :password_confirmation, :remember_me
- 
-
 
   has_many :microposts, :dependent => :destroy
 
@@ -32,17 +30,16 @@ class User < ActiveRecord::Base
   has_many :inverse_authorized_friends, :through => :inverse_friendships, :source => :user, :conditions => [ "authorized = ?", true ]
   has_many :unauthorized_friends, :through => :friendships, :source => :friend, :conditions => [ "authorized = ?", false ]
 
-
-   scope :friends_wich_accepted,  lambda {
+  scope :friends_wich_accepted,  lambda {
     |my_id|   User.find(my_id).my_authorized_friends + User.find(my_id).inverse_authorized_friends }
-
-   
+  
+  
+  validates_date :birth_date, :before => lambda { 18.years.ago },
+    :before_message => "must be at least 18 years old"
 
   def can_add_to_friends?(friend)
     Friendship.my_friends(id, friend.id).present? || (id == friend.id) ? false : true
   end
-
-  
 
   def join_event?(event)
     if UsersEvent.find_by_event_id_and_user_id(event.id, id)
@@ -53,7 +50,6 @@ class User < ActiveRecord::Base
       return true
     end
   end
-
 
   def all_chats_with_user
     group_messages = Message.all_messages_with_user(id).group("sender_id", "receiver_id");
@@ -79,9 +75,8 @@ class User < ActiveRecord::Base
   end
 
   def add_to_friends!(friend)
-   friendships.create!(:friend => friend)
+    friendships.create!(:friend => friend)
   end
-
 
   def can_join?(event)
     UsersEvent.find_by_event_id_and_user_id(event.id, id) ? false : true
@@ -96,7 +91,6 @@ class User < ActiveRecord::Base
     end
     return a
    end
-
 end
 
 
