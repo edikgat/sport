@@ -1,7 +1,4 @@
 Sport::Application.routes.draw do
-  get "pages/home"
-
-  get "pages/contact"
 
   mount RedactorRails::Engine => '/redactor_rails'
 
@@ -32,7 +29,6 @@ Sport::Application.routes.draw do
   get '/events_joined' => "events#joined"
   post '/event_search' => "events#search"
   get '/event_index_search' => "events#index_search"
-   
   resources :events do
     post :join
  end

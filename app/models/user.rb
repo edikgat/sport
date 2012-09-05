@@ -84,7 +84,7 @@ class User < ActiveRecord::Base
     j = 0  
     exit = 0
       while  (j < i)&&(exit == 0) do  
-       if (message.sender_id == group_messages[j].receiver_id)&&(message.receiver_id== group_messages[j].sender_id)
+       if (message.sender_id == group_messages[j].receiver_id)&&(message.receiver_id == group_messages[j].sender_id)
         messages[j][:count] = messages[j][:count] + counted[[message.sender_id, message.receiver_id]]
         messages = messages - [messages[i]]
         exit = 1

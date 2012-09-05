@@ -6,11 +6,6 @@
 
 <%= will_paginate %>
 
-<% if  @messages[0].sender_id==current_user.id%>
-  <% user_id=@messages[0].receiver_id %>
-<% else %>
-  <% user_id=@messages[0].sender_id %>
-<% end %>
 
 <table class="table table-striped">
   <thead>
@@ -20,7 +15,15 @@
       <th><%= model_class.human_attribute_name(:created_at) %></th>
     </tr>
   </thead>
+<% if @messages.present? %>
+
+
   <tbody>
+    <% if  @messages[0].sender_id==current_user.id%>
+       <% user_id=@messages[0].receiver_id %>
+    <% else %>
+       <% user_id=@messages[0].sender_id %>
+    <% end %>
     <% @messages.each do |message| %>
       <tr>
       	<% user_id=1 %>
@@ -34,8 +37,10 @@
         <td><%=l message.created_at %></td>
       </tr>
     <% end %>
+    <% end %>
   </tbody>
 </table>
+
 
 <%= will_paginate %>
 

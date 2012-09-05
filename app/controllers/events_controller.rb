@@ -45,17 +45,20 @@ class EventsController < ApplicationController
   end
 
   def create
+
     @event = current_user.events.build(params[:event])
     @event[:members] = 1
+    logger.info "__________________@events_____________________#{@event.inspect}" 
     respond_to do |format|
       if @event.valid?      
         param=params[:event]
         param[:members] = 1
         @event = current_user.events.create(param)
-        UsersEvent.find_by_event_id_and_user_id(@event.id,current_user.id).update_attributes(role: true)
-        
-        flash[:notice] = 'Event was successfully created.'
-        redirect_to @event
+        UsersEvent.find_by_event_id_and_user_id(@event.id,current_user.id).update_attributes(role: true)        
+       # flash[:notice] = 'Event was successfully created.'
+        logger.info "__________________@events_____________________#{@event.inspect}" 
+        redirect_to @event, notice: 'Event was successfully created.'
+
       else
         render action: "new"
       end

@@ -8,7 +8,7 @@
   <h1><%=t '.title', :default => model_class.model_name.human %></h1>
 </div>
 <% if @event.photo_file_name %> 
-<div id="les8_ex2">
+<div id="les8_ex2" style="width:400px; height:400px">
   <%= image_tag @event.photo.url %>
 </div> <input type="button" id="but1" value="Show/Hide" onclick="hideShowDiv();">
 <% end %>
@@ -35,9 +35,9 @@
 
 <% if (@event.latitude && @event.longitude) %>
   <%= render :partial =>  "home/index" %>
-  <div onload="initialize()">
+ 
     <div id="map_canvas" style="width:400px; height:400px"></div>
-  </div>
+
 <% end %>
 
 <div class="form-actions">
