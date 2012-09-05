@@ -8,6 +8,7 @@ FactoryGirl.define do
     sequence(:email) {|n| "person#{n}@example.com" }
     password "foobar"
     password_confirmation "foobar"
+
     # required if the Devise Confirmable module is used
     # confirmed_at Time.now
   end
@@ -15,15 +16,7 @@ FactoryGirl.define do
 
   # Defines a new sequence
 
-  sequence :email do |n|
-    "person#{n}@example.com"
-  end
-
-  sequence :name do |n|
-    "Person #{n}"
-  end
-
-
+ 
 factory :micropost do
   user
   content "Foo bar"

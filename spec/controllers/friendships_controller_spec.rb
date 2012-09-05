@@ -128,7 +128,7 @@ end
    
       it "should render users page" do
         post :create, :format => " "
-        response.should redirect_to ( users_url )
+        response.should redirect_to ( users_path )
       end
 
       it "should not create a friendship" do

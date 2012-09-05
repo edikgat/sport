@@ -286,7 +286,7 @@ end
       
       it "should join the event" do
         lambda do
-          post :join, :event_id => @event_join    
+          post :join, :event_id => @event_join.id    
           response.should redirect_to(events_path)
         end.should change(UsersEvent, :count).by(1)
       end

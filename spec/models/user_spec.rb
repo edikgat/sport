@@ -9,6 +9,7 @@ describe User do
       :password_confirmation => "foobar",
       :first_name => "Example",
       :last_name => "User",
+      :birth_date => (Date.today - 20.years)
 
     }
   end

@@ -77,8 +77,8 @@ class EventsController < ApplicationController
 
   def join
     @event = Event.find(params[:event_id])
-   
-    if current_user.join_event?(@event)
+    logger.info "__________________@event_____________________#{@event.inspect}"
+    if current_user.join_event!(@event)
       flash.now[:success] = "You could not join to this event"
     else
       flash.now[:error] = "You have joined to this event"

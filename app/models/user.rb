@@ -64,14 +64,10 @@ class User < ActiveRecord::Base
     user_event.present? && user_event.role?
   end
   
-  def join_event?(event)
-    find_user_event(event).blank?
-  end
-  
   def join_event!(event)
-    if join_event?(event)
-      users_events.create(:event_id => event.id)
-      event.update_attributes(members: @event.members + 1)
+    if can_join?(event)
+       users_events.create(:event_id => event.id)
+       event.update_attributes(members: event.members + 1)
     end
   end
 

@@ -26,19 +26,24 @@ class FriendshipsController < ApplicationController
   end
   
   def create
-    if current_user.can_add_to_friends?(User.find(params[:format]))
-      @friendship = current_user.friendships.build(:friend_id => params[:format])
+    if user=User.find_by_id(params[:format])
+      if current_user.can_add_to_friends?(user)
+        @friendship = current_user.friendships.build(:friend_id => params[:format])
       
-      if @friendship.save
-        flash[:notice] = 'Added to friends!'
-        redirect_to outgoing_requests_path
-      else 
-        flash[:notice] = 'Sorry something wrong!'
-        redirect_to users_url
+        if @friendship.save
+          flash[:notice] = 'Added to friends!'
+          redirect_to outgoing_requests_path
+        else 
+          flash[:notice] = 'Sorry something wrong!'
+          redirect_to users_path
+        end
+      else  
+        flash[:notice] = 'You cant!'
+        redirect_to users_path
       end
-    else  
+    else
       flash[:notice] = 'You cant!'
-      redirect_to users_url
+      redirect_to users_path
     end
   end
   
