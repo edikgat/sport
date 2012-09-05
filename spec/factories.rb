@@ -4,6 +4,7 @@ FactoryGirl.define do
   factory :user,  aliases: [:sender, :receiver] do
     first_name "Test"
     last_name "User"
+    birth_date (Date.today - 20.years)
     sequence(:email) {|n| "person#{n}@example.com" }
     password "foobar"
     password_confirmation "foobar"

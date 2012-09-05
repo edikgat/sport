@@ -10,6 +10,8 @@ gem 'jquery-rails'
 gem 'redactor-rails'
 gem 'fancybox-rails'
 gem 'validates_timeliness', '~> 3.0'
+gem 'carrierwave'
+gem 'mini_magick'
 
 group :assets do
   gem 'sass-rails', '~> 3.2.3'
