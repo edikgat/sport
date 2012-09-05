@@ -1,13 +1,6 @@
-<head>
- 
 <script type="text/javascript">
-
-
-
   function hideShowDiv(){ $('#les8_ex2').toggle('slow'); } 
-  </script>
- </head>
-
+</script>
 
 <%- model_class = Event -%>
 <div class="page-header">
@@ -41,12 +34,12 @@
 </dl>
 
 <% if (@event.latitude && @event.longitude) %>
-<%= render :partial =>  "home/index" %>
- <body onload="initialize()">
- <div id="map_canvas" style="width:400px; height:400px"></div>
-
- </body>
+  <%= render :partial =>  "home/index" %>
+  <div onload="initialize()">
+    <div id="map_canvas" style="width:400px; height:400px"></div>
+  </div>
 <% end %>
+
 <div class="form-actions">
   <% if current_user.can_join?(@event) %>
   <%= link_to 'Join', event_join_path(@event), :method => :post, :class => 'btn' %>

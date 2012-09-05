@@ -1,10 +1,11 @@
-
-
 <%- model_class = User -%>
+
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
 </div>
+
 <%= will_paginate %>
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -12,11 +13,9 @@
       <th><%= model_class.human_attribute_name(:first_name) %></th>
       <th><%= model_class.human_attribute_name(:last_name) %></th>
       <th><%= model_class.human_attribute_name(:birth_date) %></th>
-       <th><%=t '.actions', :default => t("helpers.actions") %></th>
-
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
-  
   <tbody>
     <% @users.each do |user| %>
       <tr>
@@ -31,16 +30,16 @@
     <% end %>
   </tbody>
 </table>
+
 <%= will_paginate %>
-<% @search="Search" %>
-<%= form_for @search, :url => user_search_path(@search) do |f| %>
+
+<%= form_for "Search", :url => user_search_path("Search") do |f| %>
   <div class="field">
     <%= f.label  ("Search by users last name") %><br />
     <%= f.text_field :title1234, data: { autocomplete_source: user_index_search_path } %>
   </div> <%= f.submit "Search"%>
 <% end %>
 
-
- <a id="inline" href="#data">This shows content of element who has id="data"</a>
+<a id="inline" href="#data">This shows content of element who has id="data"</a>
 
 <div style="display:none"><div id="data">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div></div>

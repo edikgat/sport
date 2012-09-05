@@ -1,22 +1,23 @@
 <%- model_class = Message -%>
+
 <div class="page-header">
   <h1><%= link_to 'Messages/', messages_path %><%=t '.title', :default => @title %></h1>
 </div>
+
 <%= will_paginate %>
+
 <% if  @messages[0].sender_id==current_user.id%>
-        <% user_id=@messages[0].receiver_id %>
-        <% else %>
-        <% user_id=@messages[0].sender_id %>
-        <% end %>
+  <% user_id=@messages[0].receiver_id %>
+<% else %>
+  <% user_id=@messages[0].sender_id %>
+<% end %>
+
 <table class="table table-striped">
   <thead>
     <tr>
-      
       <th><%= model_class.human_attribute_name(:content) %></th>
       <th>Chat with:</th>
-      
       <th><%= model_class.human_attribute_name(:created_at) %></th>
-      
     </tr>
   </thead>
   <tbody>
@@ -31,11 +32,11 @@
         <td><%= link_to message.content.html_safe, chat_path(user_id) %></td>
         <td><%= link_to User.find(user_id).email, chat_path(user_id) %></td>
         <td><%=l message.created_at %></td>
-        
       </tr>
     <% end %>
   </tbody>
 </table>
+
 <%= will_paginate %>
 
 <%= link_to t('.new', :default => t("helpers.links.new")),

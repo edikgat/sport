@@ -1,23 +1,22 @@
 <%- model_class = Micropost -%>
+
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
 </div>
+
 <%= will_paginate %>
+
 <table class="table table-striped">
   <thead>
     <tr>
-
       <th><%= model_class.human_attribute_name(:content) %></th>
-      
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
   <tbody>
     <% @microposts.each do |micropost| %>
       <tr>
-        <td><%= link_to micropost.content, micropost_path(micropost) %></td>
-        
-                
+        <td><%= link_to micropost.content, micropost_path(micropost) %></td>   
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_micropost_path(micropost), :class => 'btn btn-mini' %>
@@ -31,13 +30,14 @@
     <% end %>
   </tbody>
 </table>
+
 <%= will_paginate %>
+
 <%= link_to t('.new', :default => t("helpers.links.new")),
             new_micropost_path,
             :class => 'btn btn-primary' %>
 
-<% @search="Search" %>
-<%= form_for @search, :url => micropost_search_path(@search) do |f| %>
+<%= form_for "Search", :url => micropost_search_path("Search") do |f| %>
   <div class="field">
     <%= f.label ("Search by micropost content") %><br />
     <%= f.text_field :titlemicro, data: {autocomplete_source: current_user.microposts.order(:content).map(&:content)} %>
