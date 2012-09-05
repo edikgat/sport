@@ -9,13 +9,10 @@ class Message < ActiveRecord::Base
   validates :receiver_id, :presence => true
   
   scope :all_messages_with_user, lambda {
-     |user_id| where("receiver_id = ? OR sender_id = ?", user_id, user_id).order("created_at DESC")  
-   }
-
-  scope :chat_with_friend, lambda{
-  |user_id,friend_id|  where("( receiver_id= (?)  AND sender_id= (?)  ) OR ( receiver_id= (?)  AND sender_id= (?)  )", user_id, friend_id, friend_id, user_id).order("created_at DESC")
+    |user_id| where("receiver_id = ? OR sender_id = ?", user_id, user_id).order("created_at DESC")  
   }
 
-
-
+  scope :chat_with_friend, lambda{
+    |user_id,friend_id|  where("( receiver_id= (?)  AND sender_id= (?)  ) OR ( receiver_id= (?)  AND sender_id= (?)  )", user_id, friend_id, friend_id, user_id).order("created_at DESC")
+  }
 end

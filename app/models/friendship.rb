@@ -19,6 +19,7 @@ class Friendship < ActiveRecord::Base
   scope :my_friends, lambda {
     |my_id, friend_id| where("(user_id = (?) AND friend_id = (?)) OR (user_id = (?) AND friend_id = (?))", my_id, friend_id, friend_id, my_id) 
   }
+  
   private
 
   def check_on_uniqueness

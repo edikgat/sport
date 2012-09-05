@@ -33,21 +33,45 @@ class User < ActiveRecord::Base
   scope :friends_wich_accepted,  lambda {
     |my_id|   User.find(my_id).my_authorized_friends + User.find(my_id).inverse_authorized_friends }
   
-  
   validates_date :birth_date, :before => lambda { 18.years.ago },
     :before_message => "must be at least 18 years old"
 
+  # FRIENDSHIP METHODS - BEGIN
   def can_add_to_friends?(friend)
-    Friendship.my_friends(id, friend.id).present? || (id == friend.id) ? false : true
+    !my_friend?(friend) && !(id == friend.id)
+  end
+  
+  def my_friend?(friend)
+    Friendship.my_friends(id, friend.id).present?
+  end
+  
+  def add_to_friends!(friend)
+    friendships.create!(:friend => friend)
+  end
+  # FRIENDSHIP METHODS - END
+  
+  # EVENTS METHODS - BEGIN
+  def find_user_event(event)
+    users_events.where(:event_id => event.id).first
+  end
+  
+  def can_join?(event)
+    find_user_event(event).blank?
   end
 
+  def can_edit_event?(event)
+    user_event = find_user_event(event)
+    user_event.present? && user_event.role?
+  end
+  
   def join_event?(event)
-    if UsersEvent.find_by_event_id_and_user_id(event.id, id)
-      return false
-    else
-      UsersEvent.create(:event_id => event.id, :user_id => id)
+    find_user_event(event).blank?
+  end
+  
+  def join_event!(event)
+    if join_event?(event)
+      users_events.create(:event_id => event.id)
       event.update_attributes(members: @event.members + 1)
-      return true
     end
   end
 
@@ -73,24 +97,7 @@ class User < ActiveRecord::Base
     end
     return messages.compact
   end
-
-  def add_to_friends!(friend)
-    friendships.create!(:friend => friend)
-  end
-
-  def can_join?(event)
-    UsersEvent.find_by_event_id_and_user_id(event.id, id) ? false : true
-  end
-
-   def can_edit_event?(event)
-    a=true
-    if UsersEvent.find_by_event_id_and_user_id(event.id, id)
-       (UsersEvent.find_by_event_id_and_user_id(event.id, id)[:role] == true) ? a = true : a = false
-    else
-      a = false
-    end
-    return a
-   end
+  # EVENTS METHODS - END
 end
 
 
