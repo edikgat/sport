@@ -45,23 +45,15 @@ class EventsController < ApplicationController
   end
 
   def create
-
-    @event = current_user.events.build(params[:event])
-    @event[:members] = 1
-    logger.info "__________________@events_____________________#{@event.inspect}" 
-    respond_to do |format|
-      if @event.valid?      
-        param=params[:event]
-        param[:members] = 1
-        @event = current_user.events.create(param)
-        UsersEvent.find_by_event_id_and_user_id(@event.id,current_user.id).update_attributes(role: true)        
-       # flash[:notice] = 'Event was successfully created.'
-        logger.info "__________________@events_____________________#{@event.inspect}" 
-        redirect_to @event, notice: 'Event was successfully created.'
-
-      else
-        render action: "new"
-      end
+    @event = Event.new(params[:event].merge(:members => 1))
+    if @event.valid?
+      @event = current_user.events.create(params[:event].merge(:members => 1))
+      user_event = current_user.users_events.where(:event_id => @event.id).first
+      user_event.update_attributes(:role => true) if user_event.present?
+      flash[:notice] = 'Event was successfully created.'
+      redirect_to event_url(@event)
+    else
+      render "new"
     end
   end
 
@@ -77,7 +69,6 @@ class EventsController < ApplicationController
 
   def join
     @event = Event.find(params[:event_id])
-    logger.info "__________________@event_____________________#{@event.inspect}"
     if current_user.join_event!(@event)
       flash.now[:success] = "You could not join to this event"
     else

@@ -16,13 +16,7 @@ class MessagesController < ApplicationController
     @messages = Message.chat_with_friend(current_user.id,params[:id]).paginate(:page => params[:page])
     @message = Message.new
   end
-
-  def chat_index
-    @title = "Chats"
-    @messages = current_user.all_chats_with_user.paginate(:page => params[:page])
-    @count = @messages.count
-  end
-  
+ 
   def reverse
     @title = "Reverse Messages"
     @messages = current_user.reverse_messages.paginate(:page => params[:page])
@@ -36,8 +30,8 @@ class MessagesController < ApplicationController
   
   def chat_index
     @title = "Chats"
-    @messages = current_user.all_chats_with_user.paginate(:page => params[:page])
-    @count = @messages.count
+    @messages = current_user.all_chats_with_user.map { |chat| chat[:message] }.paginate(:page => params[:page])
+    @count = current_user.all_chats_with_user.map { |chat| chat[:count] }
   end
 
   def show
@@ -55,18 +49,21 @@ class MessagesController < ApplicationController
   def create
     email = params[:receiver_email].present? ? params[:receiver_email] : params[:Message_to_user][:receiver_email]
     chat = true if params[:receiver_email].present?
-    receiver_id = User.find_by_email(email).id
-    
-    @message = current_user.messages.build(
+    if a = User.find_by_email(email)
+      receiver_id =  a.id
+      @message = current_user.messages.build(
       :content => params[:Message_to_user][:content], 
       :receiver_id => receiver_id
-    )
-
-    if @message.save
-      redirect_to (chat ? chat_path(receiver_id) : @message), notice: 'Message was successfully created.'
+      )
+      if @message.save
+        redirect_to (chat ? chat_path(receiver_id) : @message), notice: 'Message was successfully created.'
+      else
+        flash[:error] = 'Something wrong'
+        render action: "new"
+      end
     else
-      flash[:error] = 'Something wrong'
-      render action: "new"
+      flash[:error] = 'Email incorrect'
+      redirect_to new_message_path
     end
   end
   

@@ -65,6 +65,7 @@ describe "search actons" do
       :password_confirmation => "foobar",
       :first_name => "Edik",
       :last_name => "Gataullin",
+      :birth_date => (Date.today - 20.years)
     }
    @search_user=User.create(@attr)  
   end

@@ -71,29 +71,31 @@ class User < ActiveRecord::Base
     end
   end
 
-  def all_chats_with_user
-    group_messages = Message.all_messages_with_user(id).group("sender_id", "receiver_id");
-    counted = group_messages.count
-    messages = []
-    group_messages.each_with_index do | message, i |
-    messages[i] = message
-    j = 0  
-    exit = 0
-      while  (j < i)&&(exit == 0) do  
-       if (message.sender_id == group_messages[j].receiver_id)&&(message.receiver_id == group_messages[j].sender_id)
-        messages[j][:count] = messages[j][:count] + counted[[message.sender_id, message.receiver_id]]
-        messages = messages - [messages[i]]
-        exit = 1
-       end
-       j += 1
-      end
-      if exit == 0
-      messages[i][:count] = counted[[message.sender_id, message.receiver_id]]
-      end
-    end
-    return messages.compact
+  def unique_ids(all_messages)
+    all_id_pairs = all_messages.map { |c| [c.sender_id, c.receiver_id] }
+    unique_ids = all_id_pairs.flatten
+    unique_ids = unique_ids.uniq.reject! { |i| i == id }
   end
+
+  def chat_with
+    all_messages = Message.all_messages_with_user(id)
+    chat_pairs = []
+    unique_ids(all_messages).each do |unique_id|
+      chat_pairs << all_messages.
+        select { |c| c.sender_id == unique_id || c.receiver_id == unique_id }
+    end
+    chat_pairs
+  end
+
+  def all_chats_with_user
+    chats = []
+    chat_with.each_with_index  do | message, i| 
+      chats[i] = { message: message[0], count: message.size }
+      end
+      chats
+  end 
   # EVENTS METHODS - END
+  
 end
 
 
