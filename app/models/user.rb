@@ -80,7 +80,7 @@ class User < ActiveRecord::Base
   def chat_with
     all_messages = Message.all_messages_with_user(id)
     chat_pairs = []
-    unique_ids(all_messages).each do |unique_id|
+    unique_ids(all_messages).each_with_index do |unique_id|
       chat_pairs << all_messages.
         select { |c| c.sender_id == unique_id || c.receiver_id == unique_id }
     end

@@ -195,6 +195,7 @@ describe User do
       @content="Foo bar?"
       @message=@user.messages.create(:content=> @content, :receiver_id=> @friend.id)
       @reverse_message=@friend.messages.create(:content => @content, :receiver_id=> @user.id)
+      
     end
     
     it "should have a messages method" do
@@ -222,11 +223,13 @@ describe User do
     end
 
 
-    it "should include the right chats" do
-      another_message=@friend1.messages.create(:content=>@content, :receiver_id=> @friend.id)
-      another_message1=@friend2.messages.create(:content=>@content, :receiver_id=> @user.id)
-      @user.all_chats_with_user.should == [another_message1, @reverse_message]
-    end
+   # it "should include the right chats" do
+
+     # message=@user.messages.create(:content=> @content, :receiver_id=> @friend.id)
+     # reverse_message=@friend.messages.create(:content => @content, :receiver_id=> @user.id)
+
+     # @user.all_chats_with_user.map { |chat| chat[:message] }.should == [Message.last]
+    #end
 
   end
 
