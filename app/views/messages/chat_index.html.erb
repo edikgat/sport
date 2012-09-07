@@ -18,26 +18,15 @@
   </thead>
 <% if @messages.present? %>
   <tbody>
-    <% if  @messages[0].sender_id==current_user.id%>
-       <% user_id=@messages[0].receiver_id %>
-    <% else %>
-       <% user_id=@messages[0].sender_id %>
-    <% end %>
     <% @messages.each_with_index do |message, i| %>
       <tr>
-      	<% user_id=1 %>
-        <% if  message.sender_id==current_user.id%>
-        <% user_id=message.receiver_id %>
-        <% else %>
-        <% user_id=message.sender_id %>
-        <% end %>
-        <td><%= link_to message.content.html_safe, chat_path(user_id) %></td>
-        <td><%= link_to User.find(user_id).email, chat_path(user_id) %></td>
+        <td><%= link_to message.content.html_safe, chat_path(@chat_users[i].id) %></td>
+        <td><%= link_to @chat_users[i].email, chat_path(@chat_users[i].id) %></td>
         <td><%=l message.created_at %></td>
         <td><%= @count[i] %></td>
       </tr>
-    <% end %>
-    <% end %>
+      <% end %>
+  <% end %>
   </tbody>
 </table>
 

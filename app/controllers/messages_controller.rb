@@ -3,39 +3,47 @@ class MessagesController < ApplicationController
 
   def index
     @title = "Messages"
-    @messages = current_user.messages.paginate(:page => params[:page])
+    @messages = current_user.messages.paginate(page: params[:page])
+    @users = @messages.map { |message| User.find(message.receiver_id) }
   end
   
   def reverse
     @title = "Reverse Messages"
-    @messages = current_user.reverse_messages.paginate(:page => params[:page])
+    @messages = current_user.reverse_messages.paginate(page: params[:page])
+    @users = @messages.map { |message| User.find(message.sender_id) }
+    
   end
 
    def chat_show
     @title = "Chat with"
-    @messages = Message.chat_with_friend(current_user.id,params[:id]).paginate(:page => params[:page])
+    @messages = Message.chat_with_friend(current_user.id,params[:id]).paginate(page: params[:page])
     @message = Message.new
   end
  
-  def reverse
-    @title = "Reverse Messages"
-    @messages = current_user.reverse_messages.paginate(:page => params[:page])
-  end
 
   def chat_show
     @title = "Chat with"
-    @messages = Message.chat_with_friend(current_user.id,params[:id]).paginate(:page => params[:page])
+    @messages = Message.chat_with_friend(current_user.id,params[:id]).paginate(page: params[:page])
     @message = Message.new
+    @title=User.find(params[:id]).first_name
+    @senders = []
+    @senders = @messages.map { |message| User.find(message.sender_id).email }
+    @receivers = []
+    @receivers = @messages.map { |message| User.find(message.receiver_id).email }
+    @receiver_email = current_user.giv_chat_user(@messages[0]).email
   end
   
   def chat_index
     @title = "Chats"
-    @messages = current_user.all_chats_with_user.map { |chat| chat[:message] }.paginate(:page => params[:page])
+    @messages = current_user.all_chats_with_user.map { |chat| chat[:message] }.paginate(page: params[:page])
     @count = current_user.all_chats_with_user.map { |chat| chat[:count] }
+    @chat_users = @messages. map { |message| current_user.giv_chat_user(message) }
   end
 
   def show
     @message = Message.find(params[:id])
+    @sender=User.find(@message.sender_id).email
+    @receiver=User.find(@message.receiver_id).email
   end
 
   def new
@@ -52,8 +60,8 @@ class MessagesController < ApplicationController
     if a = User.find_by_email(email)
       receiver_id =  a.id
       @message = current_user.messages.build(
-      :content => params[:Message_to_user][:content], 
-      :receiver_id => receiver_id
+      content: params[:Message_to_user][:content], 
+      receiver_id: receiver_id
       )
       if @message.save
         redirect_to (chat ? chat_path(receiver_id) : @message), notice: 'Message was successfully created.'

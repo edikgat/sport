@@ -1,6 +1,6 @@
 <%- model_class = Message -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => @title %> <%= User.find(params[:id]).first_name%>
+  <h1><%=t '.title', :default => @title %> <%= @title%>
   </h1>
 </div>
 <%= will_paginate %>
@@ -17,15 +17,15 @@
     </tr>
   </thead>
   <tbody>
-    <% @messages.each do |message| %>
+    <% @messages.each_with_index do |message, i | %>
       <tr>
       	
         <td><%= link_to message.content.html_safe, message_path(message) %></td>
-        <td><%= User.find(message.sender_id).email %></td>
-        <td><%= User.find(message.receiver_id).email %></td>
+        <td><%= @senders[i] %></td>
+        <td><%= @receivers[i] %></td>
         <td><%=l message.created_at %></td>
         <td>
-          <% if message.sender==current_user %>
+          <% if message.sender == current_user %>
 
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_message_path(message), :class => 'btn btn-mini' %>
@@ -50,13 +50,6 @@
 </div>
 
 
-<% if @messages[0].sender_id==current_user.id %>
-<% receiver_email=User.find(@messages[0].receiver_id).email %>
-<% else %>
-<% receiver_email=User.find(@messages[0].sender_id).email %>
-<% end %>
-
-
 <% @message_to_user="Message_to_user" %>
 <%= form_for @message_to_user, :url => messages_path(@search) do |f| %>
  <div class="control-group">
@@ -67,7 +60,7 @@
   </div>
     </div>
    <div class="form-actions">
-      <%= hidden_field_tag(:receiver_email, receiver_email) %>
+      <%= hidden_field_tag(:receiver_email, @receiver_email) %>
     <%= f.submit "Send",:class => 'btn btn-primary'%>
   <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
                 messages_path, :class => 'btn' %>

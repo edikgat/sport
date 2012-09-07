@@ -4,7 +4,7 @@ Sport::Application.routes.draw do
 
   devise_for :users 
       
- resources :users, :only => [:index, :show]
+ resources :users, only: [:index, :show]
   post '/user_search' => "users#search"
   get '/user_index_search' => "users#index_search"
   get '/user_email_index_search' => "users#email_index_search"
@@ -14,8 +14,8 @@ Sport::Application.routes.draw do
   get '/reverse_messages' => "messages#reverse"
   resources :messages 
   post '/receiver_search' => "messages#receiver_search"
-  get 'chats'=>"messages#chat_index"
-  get 'chat/:id'=>"messages#chat_show", :as => 'chat'
+  get 'chats' => "messages#chat_index"
+  get 'chat/:id' => "messages#chat_show", as: 'chat'
   
   resources :microposts
   post '/micropost_search' => "microposts#search"
@@ -84,7 +84,7 @@ Sport::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'home#index'
+  root to: 'home#index'
 
   # See how all your routes lay out with "rake routes"
 

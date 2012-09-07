@@ -7,7 +7,6 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      
       <th><%= model_class.human_attribute_name(:content) %></th>
     <% if params[:action]=="reverse" %>
       <th><%= model_class.human_attribute_name(:sender) %></th>
@@ -19,17 +18,13 @@
     </tr>
   </thead>
   <tbody>
-    <% @messages.each do |message| %>
+    <% @messages.each_with_index do |message, i| %>
       <tr>
         <td><%= link_to message.content.html_safe, message_path(message) %></td>
-        <% if params[:action]=="reverse" %>
-        <td><%= User.find(message.sender_id).email %></td>
-        <% else %>
-        <td><%= User.find(message.receiver_id).email %></td>
-        <% end %>
+        <td><%= @users[i].email %></td>
         <td><%=l message.created_at %></td>
-        <td>
-          <% if current_user.id==message.sender_id %>
+         <td>
+          <% if current_user.id == message.sender_id %>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_message_path(message), :class => 'btn btn-mini' %>
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),

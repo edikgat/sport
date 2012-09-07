@@ -2,15 +2,15 @@ class FriendshipsController < ApplicationController
   before_filter :authenticate_user!
   
   def index    
-    @users = User.friends_wich_accepted(current_user.id).paginate(:page => params[:page])
+    @users = User.friends_wich_accepted(current_user.id).paginate(page: params[:page])
   end
 
   def incoming
-    @users = current_user.inverse_friends.paginate(:page => params[:page])
+    @users = current_user.inverse_friends.paginate(page: params[:page])
   end
   
   def outgoing
-    @users = current_user.unauthorized_friends.paginate(:page => params[:page])
+    @users = current_user.unauthorized_friends.paginate(page: params[:page])
   end
  
   def show
@@ -28,7 +28,7 @@ class FriendshipsController < ApplicationController
   def create
     if user=User.find_by_id(params[:format])
       if current_user.can_add_to_friends?(user)
-        @friendship = current_user.friendships.build(:friend_id => params[:format])
+        @friendship = current_user.friendships.build(friend_id: params[:format])
       
         if @friendship.save
           flash[:notice] = 'Added to friends!'
@@ -52,7 +52,7 @@ class FriendshipsController < ApplicationController
     @friendship = Friendship.find_by_user_id_and_friend_id(params[:id],current_user.id)
     
     if @friendship.present?
-      @friendship.update_attributes(:authorized => true)
+      @friendship.update_attributes(authorized: true)
       
       redirect_to incoming_requests_path, notice: 'Friendship was successfully authorized.'
     else

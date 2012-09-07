@@ -33,6 +33,7 @@ group :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
  # gem 'spork'
+ gem "simplecov", :require => false
 end
 
-gem 'simplecov', :require => false, :group => :test
+#gem 'simplecov', :require => false, :group => :test
