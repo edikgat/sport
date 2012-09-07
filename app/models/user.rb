@@ -13,10 +13,12 @@ class User < ActiveRecord::Base
 
   has_many :users_events, dependent: :destroy
   has_many :events, through: :users_events
-  has_many :master_events, through: :users_events, source: :event, conditions: [ "role = ?", true]
+  has_many :master_events, through: :users_events,
+    source: :event, conditions: [ "role = ?", true]
 
   has_many :messages, foreign_key: "sender_id", dependent: :destroy
-  has_many :reverse_messages, class_name: "Message", foreign_key: "receiver_id", dependent: :destroy
+  has_many :reverse_messages, class_name: "Message",
+    foreign_key: "receiver_id", dependent: :destroy
 
   has_many :receivers, through: :messages, source: :receiver
   has_many :senders, through: :reverse_messages, source: :sender
@@ -24,11 +26,15 @@ class User < ActiveRecord::Base
   has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships
   has_many :inverse_friendships, class_name: "Friendship", foreign_key: "friend_id"
-  has_many :inverse_friends, through: :inverse_friendships, source: :user, conditions: [ "authorized = ?", false ]
+  has_many :inverse_friends, through: :inverse_friendships,
+    source: :user, conditions: [ "authorized = ?", false ]
   
-  has_many :my_authorized_friends, through: :friendships, source: :friend, conditions: [ "authorized = ?", true ]
-  has_many :inverse_authorized_friends, through: :inverse_friendships, source: :user, conditions: [ "authorized = ?", true ]
-  has_many :unauthorized_friends, through: :friendships, source: :friend, conditions: [ "authorized = ?", false ]
+  has_many :my_authorized_friends, through: :friendships,
+    source: :friend, conditions: [ "authorized = ?", true ]
+  has_many :inverse_authorized_friends, through: :inverse_friendships,
+    source: :user, conditions: [ "authorized = ?", true ]
+  has_many :unauthorized_friends, through: :friendships,
+    source: :friend, conditions: [ "authorized = ?", false ]
 
   scope :friends_wich_accepted,  lambda {
     |my_id|   User.find(my_id).my_authorized_friends + User.find(my_id).inverse_authorized_friends }
@@ -91,7 +97,7 @@ class User < ActiveRecord::Base
 
   def all_chats_with_user
     chats = []
-    chat_with.each_with_index  do | message, i| 
+    chat_with.each_with_index do | message, i| 
       chats[i] = { message: message[0], count: message.size }
       end
       chats

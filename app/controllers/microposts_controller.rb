@@ -25,7 +25,7 @@ class MicropostsController < ApplicationController
       redirect_to @micropost, notice: 'Micropost was successfully created.'
     else
       flash[:error] = 'Wrong'
-      render action: "new"
+      render "new"
     end
   end
 
@@ -35,7 +35,7 @@ class MicropostsController < ApplicationController
     if @micropost.update_attributes(params[:micropost])
       redirect_to @micropost, notice: 'Micropost was successfully updated.'
     else
-      render action: "edit"
+      render "edit"
     end
   end
 

@@ -1,21 +1,19 @@
 <%- model_class = Event -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => @title %></h1>
+  <h1><%=t '.title', default: title %></h1>
 </div>
 <%= will_paginate %>
 <table class="table table-striped">
   <thead>
     <tr>
-      <th><%= model_class.human_attribute_name(:title) %></th>
-      
+      <th><%= model_class.human_attribute_name(:title) %></th>   
       <th><%= model_class.human_attribute_name(:event_date) %></th>
       <th><%= model_class.human_attribute_name(:members) %></th>
-      
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
   <tbody>
-    <% @events.each do |event| %>
+    <% events.each do |event| %>
       <tr>
         <td><%= link_to event.title, event_path(event) %></td>
         

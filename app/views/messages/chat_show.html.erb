@@ -18,9 +18,7 @@
   </thead>
   <tbody>
     <% @messages.each_with_index do |message, i | %>
-      <tr>
-      	
-        <td><%= link_to message.content.html_safe, message_path(message) %></td>
+      <tr><td><%= link_to message.content.html_safe, message_path(message) %></td>
         <td><%= @senders[i] %></td>
         <td><%= @receivers[i] %></td>
         <td><%=l message.created_at %></td>

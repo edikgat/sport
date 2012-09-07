@@ -63,7 +63,7 @@ class EventsController < ApplicationController
     if @event.update_attributes(params[:event])
       redirect_to @event, notice: 'Event was successfully updated.'
     else
-      render action: "edit"
+      render "edit"
     end
   end
 

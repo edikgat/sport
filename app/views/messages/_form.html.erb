@@ -1,6 +1,6 @@
 
 <% @message_to_user="Message_to_user" %>
-<%= form_for @message_to_user, :url => messages_path(@search) do |f| %>
+<%= form_for @message_to_user, :url => messages_path(@message_to_user) do |f| %>
   <div class="control-group">
     <%= f.label :content, :class => 'control-label' %>
     <div class="controls">

@@ -121,7 +121,6 @@ describe "index style of actions" do
     it "should find the right chat" do
       get :chat_show, :id => @friend.id
       assigns[:messages].should include(@user_message_for_friend)
- 
       assigns[:messages].should include(@friend_message_for_user)
 
     end 

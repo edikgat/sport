@@ -1,4 +1,4 @@
-<%= render :partial => 'index' %>
+<%= render partial: 'index', locals: { events: @events, title: @title } %>
 <%= link_to 'All events',  events_all_path, :class => 'btn' %>
 <%= link_to 'Joined events',  events_joined_path, :class => 'btn' %>
 

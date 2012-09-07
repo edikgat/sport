@@ -1,5 +1,4 @@
 class Friendship < ActiveRecord::Base
-	
   attr_accessible :authorized, :friend_id, :user_id, :friend, :user
 
   belongs_to :user
@@ -17,7 +16,8 @@ class Friendship < ActiveRecord::Base
   validate :check_on_uniqueness  
 
   scope :my_friends, lambda {
-    |my_id, friend_id| where("(user_id = (?) AND friend_id = (?)) OR (user_id = (?) AND friend_id = (?))", my_id, friend_id, friend_id, my_id) 
+    |my_id, friend_id| where("(user_id = (?) AND friend_id = (?)) OR (user_id = (?) AND friend_id = (?))",
+     my_id, friend_id, friend_id, my_id) 
   }
   
   private

@@ -45,15 +45,13 @@ function initialize() {
     map: map,
     title: name
   });
-  markersArray.push(marker);
+   markersArray.push(marker);
 }
 
 var lat;
 for(var i=0; i<longitudeArray.length; i++)
-{
-	lat= new google.maps.LatLng(latitudeArray[i], longitudeArray[i]);
-	addMarker(lat, titleArray[i]);
-
+{ lat= new google.maps.LatLng(latitudeArray[i], longitudeArray[i]);
+  addMarker(lat, titleArray[i]);
 };
 
   google.maps.event.addListener(marker, 'click');

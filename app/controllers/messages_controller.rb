@@ -67,7 +67,7 @@ class MessagesController < ApplicationController
         redirect_to (chat ? chat_path(receiver_id) : @message), notice: 'Message was successfully created.'
       else
         flash[:error] = 'Something wrong'
-        render action: "new"
+        render "new"
       end
     else
       flash[:error] = 'Email incorrect'
@@ -81,7 +81,7 @@ class MessagesController < ApplicationController
     if @message.update_attributes(params[:message])
       redirect_to @message, notice: 'Message was successfully updated.'
     else
-      render action: "edit"
+      render "edit"
     end
   end
 

@@ -1,4 +1,5 @@
-<%= render :partial => 'index' %>
+<%= render partial: 'index', locals: { users: @users, messages: @messages, title: @title } %>
+
 <%= link_to t('.new', :default => t("helpers.links.new")),
             new_message_path,
             :class => 'btn btn-primary' %>

@@ -13,6 +13,7 @@ class Message < ActiveRecord::Base
   }
 
   scope :chat_with_friend, lambda{
-    |user_id,friend_id|  where("( receiver_id= (?)  AND sender_id= (?)  ) OR ( receiver_id= (?)  AND sender_id= (?)  )", user_id, friend_id, friend_id, user_id).order("created_at DESC")
+    |user_id,friend_id|  where("( receiver_id= (?)  AND sender_id= (?)  ) OR ( receiver_id= (?)  AND sender_id= (?)  )",
+     user_id, friend_id, friend_id, user_id).order("created_at DESC")
   }
 end
